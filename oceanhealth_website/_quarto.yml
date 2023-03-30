@@ -4,13 +4,30 @@ project:
 website:
   title: "Ocean Health"
   navbar:
-    left:
+    right:
       - href: index.qmd
         text: Home
       - coralbleaching.qmd
       - chemical.qmd
       - fishpop.qmd
       - about.qmd
+      - icon: github
+        href: https://github.com/lescobos/amelia-talia-lorena-456project
+      
+    search: true
+      
+  page-footer:
+    left:
+      | 
+      &copy; Amelia Renner, Talia Chait, Lorena Escobosa Alcantar, 2023<br>
+      All content licensed under <i class='bi-badge-cc'></i>
+      [(CC BY-NC-SA 4.0)](http://creativecommons.org/licenses/by-nc-sa/4.0/) 
+      | 
+      Site built with <a href='https://quarto.org/'>Quarto</a> 
+
+    right: 
+      - icon: github
+        href: https://github.com/lescobos/amelia-talia-lorena-456project
 
 format:
   html:
