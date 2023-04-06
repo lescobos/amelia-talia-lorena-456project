@@ -34,6 +34,9 @@ format:
     theme: flatly
     css: styles.css
     toc: true
-
+    code-fold: true
+    code-tools: 
+      toggle: true
+      source: false
 editor: visual
 

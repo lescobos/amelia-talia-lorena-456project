@@ -1,3 +1,98 @@
 ---
 title: "Coral Bleaching"
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(sf)
+library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(maps)
+library(readr)
+library(dplyr)
+library(tibble)
+library(gt)
+library(rnoaa)
+```
+
+### What is Coral Bleaching?  
+Coral Bleaching is the act of corals losing their vibrant colors and turning white through being stressed. The leading cause of coral bleaching is climate change. This includes an increase in ocean temperature, overexposure to sunlight, or harmful nutrients from runoff or pollution. Any of these conditions could cause the coral to expel the symbiotic algae living in their tissues which in turn causes the corals to turn completely white - hence the bleaching term.
+
+![Image Caption: A coral reef that is healthy (on the left) versus a coral reef that is bleached (on the right) - source: Greenspace](coralbleachingimage.png)
+
+### Why is it important? 
+It is important to remember that while corals are not necessarily "dead" from a coral bleaching event, it is still crucial to make sure they survive the bleaching events. Corals provide resources to many species that call the ocean their homes. By understanding the patterns in coral bleaching and bleaching severity, we can evaluate ocean health and understand what we can do to prevent more coral reefs from being bleached and ultimately prevent more damage to our oceans. 
+
+### Data, Visualizations, and Results 
+
+Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4) and published in 2016. 
+
+```{r include=FALSE}
+coralbleaching <- read_csv("CoralBleaching.csv")
+```
+
+```{r include= FALSE}
+names(coralbleaching)
+
+coralclean <- coralbleaching %>% 
+  group_by(REGION, YEAR) %>%
+  summarise(REGION, YEAR, mean(SEVERITY_CODE)) %>% 
+  unique()
+```
+
+```{r include= FALSE}
+world <- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
+```
+
+```{r fig.alt="This is a line graph that shows the average severity code of the coral bleaching over time for the regions of Africa, Americas, Asia, Australia, Middle East, and Pacific. The original severity code variable is on a scale of -1 to 3 with -1 meaning unknown, 0 meaning no bleaching, 1 meaning low severity, 2 meaning medium severity, and 3 meaning high severity. Overall, the graph suggests that over time there has a been a change in coral bleaching severity with minimal differences between the regions."}
+coralclean %>%
+  filter(REGION != "NA") %>% 
+  rename("avgSevCode"="mean(SEVERITY_CODE)") %>%
+  ggplot(aes(x = YEAR, y = avgSevCode, color = REGION)) +
+  geom_point() +
+  facet_wrap(vars(REGION)) + 
+  theme_classic() +
+  labs(x = "Year",
+       y = "Average Severity Code",
+       title = "Average Coral Bleaching Severity Code from 1963 to 2012",
+       subtitle = "separated by the regions in the world",
+       caption = "Plot by: Talia Chait  Data Source: Harvard Dataverse",
+       color = NULL) +
+   theme(legend.position = "none",
+        plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(family = "mono"),
+        plot.subtitle = element_text(family = "mono"),
+        axis.title.y = element_text(family = "mono"),
+        axis.title.x = element_text(family = "mono", vjust = 0.5))
+```
+
+```{r}
+ggplot(data = world) +
+  geom_sf() +
+  geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
+        shape = 23, fill = "darkred") +
+  coord_sf(xlim = c(-160, 160), ylim = c(-90, 90), expand = FALSE) +
+  theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(family = "mono"),
+        plot.subtitle = element_text(family = "mono"),
+        axis.title.y = element_text(family = "mono"),
+        axis.title.x = element_text(family = "mono", vjust = 0.5)) +
+  labs(title = "Coral Bleaching Events Around the World",
+       y = "Latitude",
+       x = "Longitude",
+       caption = "Plot created by Talia Chait | Data from Harvard Dataverse")
+```
+
+
+
+### Resources
+
+[https://oceanservice.noaa.gov/facts/coral_bleach.html](https://oceanservice.noaa.gov/facts/coral_bleach.htm)
+[https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/](https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/)

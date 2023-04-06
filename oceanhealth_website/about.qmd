@@ -2,8 +2,14 @@
 title: "About Us"
 ---
 
-About this site
+This website was created in Projects in Data Science by Amelia Renner, Talia Chait, and Lorena Escobosa Alcantar in Spring semester 2023 at Macalester College.
 
-```{r}
-1 + 1
-```
+### Amelia Renner 
+
+
+
+### Talia Chait 
+
+
+
+### Lorena Escoboa Alcantar 
