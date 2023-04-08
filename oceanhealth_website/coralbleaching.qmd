@@ -29,7 +29,10 @@ It is important to remember that while corals are not necessarily "dead" from a 
 
 ### Data, Visualizations, and Results 
 
-Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4) and published in 2016. 
+Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4) which is a free data repository that is open to all researchers from any discipline (both inside and outside of Harvard University). It allows researchers to share, archive, cite, and access different data-sets. It was published to the resporitory in 2016 but has data from the mid 1800s. 
+
+Since this data-set is on corals, the ethical issues have to do with gathering information from marine life and and how much the data collection could cause harms. While the harms are minor, the benefits of this data being collected goes well beyond the health of the corals. This is because coral bleaching is an indicator of climate change so collecting data on the health of corals could have lasting impacts on reducing global warming. 
+
 
 ```{r include=FALSE}
 coralbleaching <- read_csv("CoralBleaching.csv")
@@ -61,7 +64,7 @@ coralclean %>%
        y = "Average Severity Code",
        title = "Average Coral Bleaching Severity Code from 1963 to 2012",
        subtitle = "separated by the regions in the world",
-       caption = "Plot by: Talia Chait  Data Source: Harvard Dataverse",
+       caption = "Plot by Talia Chait | Data from Harvard Dataverse",
        color = NULL) +
    theme(legend.position = "none",
         plot.title = element_text(family = "mono", face = "bold", size = 12, ),
@@ -71,6 +74,7 @@ coralclean %>%
         axis.title.y = element_text(family = "mono"),
         axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
+
 
 ```{r}
 ggplot(data = world) +
@@ -87,12 +91,41 @@ ggplot(data = world) +
   labs(title = "Coral Bleaching Events Around the World",
        y = "Latitude",
        x = "Longitude",
-       caption = "Plot created by Talia Chait | Data from Harvard Dataverse")
+       caption = "Plot by Talia Chait | Data from Harvard Dataverse")
+```
+
+
+```{r}
+coral_count <- coralbleaching %>% 
+  group_by(REGION) %>%
+  count(REGION)
+
+coral_count %>% 
+  filter(REGION %in% c("Africa", "Americas", "Asia", "Australia", "Middle East", "Pacific")) %>% 
+  ggplot(mapping = aes(x= reorder(REGION, n), y = n)) + 
+  geom_col() +
+  coord_flip() + 
+  theme_classic() +
+  labs(title = "Total Number of Coral Bleaching Events per Region", 
+       x = "", 
+       y = "", 
+       caption = "Plot by Talia Chait | Data from Harvard Dataverse") + 
+   theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(family = "mono"),
+        plot.subtitle = element_text(family = "mono"),
+        axis.text = element_text(family = "mono"), 
+        legend.text = element_text(family = "mono"), 
+        legend.title = element_text(family = "mono"))
 ```
 
 
 
 ### Resources
+[Data: Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4)
 
 [https://oceanservice.noaa.gov/facts/coral_bleach.html](https://oceanservice.noaa.gov/facts/coral_bleach.htm)
+
 [https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/](https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/)
+
+[https://education.nationalgeographic.org/resource/el-nino/](https://education.nationalgeographic.org/resource/el-nino/)
