@@ -1,3 +1,138 @@
 ---
 title: "Chemical"
 ---
+
+```{r, include=FALSE}
+# Libraries
+library(plyr)
+library(lattice)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(lubridate)
+library(Rmisc)
+library(ggrepel)
+library(sf)
+
+# Reading Data
+arctic <- read.csv("ArcticLTER.csv")
+california <- read.csv("SantaBarbaraLTER.csv")
+antcruise <- read.csv("AntarcticaLTERcompiledData_Cruise_forEDI.csv")
+cce<-read.csv("CCEdata.csv")
+hawaii <- read.csv("trythis.csv")
+chemssmall <- read.csv("chemssmall.csv")
+ctdsmall <- read.csv("ctdsmall.csv")
+
+```
+
+```{r}
+# Data Cleaning 
+
+california <- california %>%
+  mutate(Date = str_sub(datetime_UTC, end = 10), 
+         Year = str_sub(Date, end = 4), 
+         Time = str_sub(datetime_UTC, start = 12)) %>%
+  mutate(Date = ymd(Date), 
+         Year = as.numeric(Year), 
+         Time = hm(Time))
+
+fullsbc2 <- chemssmall %>%
+  full_join(ctdsmall, by = join_by(decimal_year))
+
+fullsbc <- fullsbc2 %>%
+  dplyr::select(-yyyy.hyphen.mm.hyphen.dd.x, -hh.colon.mm.x, -yyyy.hyphen.mm.hyphen.dd.y, -hh.colon.mm.y) %>%
+  mutate(DecimalYear = decimal_year, 
+         Phosphate = phosphate, 
+         Ammonium = ammonium, 
+         Phosphorous = total_dissolved_phosphorus, 
+         Nitrogen = total_dissolved_nitrogen, 
+         pH = mean_pH) %>%
+  dplyr::select(Actual_Depth_m, DecimalYear, Phosphate, Ammonium, Phosphorous, Ammonium, pH) %>%
+  mutate(TempC = NA, 
+         Silicate = NA,
+         Nitrate = NA, 
+         Nitrite = NA, 
+         Station = "SBC")
+
+cce2 <- cce %>%
+  dplyr::select(Year, Temp..C., P04..µmol.L., SIO3..µmol.L., NO2..µmol.L., NO3..µmol.L.) %>%
+  mutate(DecimalYear = Year, 
+         TempC = Temp..C., 
+         Phosphate = P04..µmol.L., 
+         Silicate = SIO3..µmol.L., 
+         Nitrite = NO2..µmol.L., 
+         Nitrate = NO3..µmol.L.) %>%
+  dplyr::select(DecimalYear, TempC, Phosphate, Silicate, Nitrite, Nitrate) %>%
+  mutate(Actual_Depth_m = NA, 
+         Ammonium = NA, 
+         Phosphorous = NA, 
+         Ammonium = NA, 
+         pH = NA, 
+         Station = "CCE")
+
+
+fullCal <- fullsbc %>%
+  rbind(cce2)
+
+hawaii <- hawaii %>%
+  mutate(BottleID = str_sub(BottleID.Date.Time.Pressure.pH, start = 2, end = 11), 
+         Date = str_sub(BottleID.Date.Time.Pressure.pH, start = 14, end = 19), 
+         Time = str_sub(BottleID.Date.Time.Pressure.pH, start = 22, end = 27), 
+         Pressure = str_sub(BottleID.Date.Time.Pressure.pH, start = 30), 
+         pH = str_sub(BottleID.Date.Time.Pressure.pH, start = -7, end = -3)) %>%
+  mutate(Pressure = gsub(",.*","",Pressure), 
+         Pressure = as.numeric(Pressure), 
+         Date = mdy(Date), 
+         Time = as.numeric(Time),
+         pH = as.numeric(pH)) %>%
+  mutate(Pressure = as.numeric(Pressure)) %>%
+  mutate(Year = year(Date), 
+         Month = month(Date)) %>%
+  dplyr::select(-BottleID.Date.Time.Pressure.pH) %>%
+  group_by(Year, Month) %>%
+  dplyr::summarize(pH = mean(pH))
+
+```
+
+```{r}
+# Ocean Temperatures
+california %>%
+  filter(temp_c > 0) %>%
+  ggplot() + 
+  geom_line(aes(x = Date, y = temp_c), ) + 
+  geom_smooth(aes(x = Date, y = temp_c)) + 
+  theme_classic() + 
+  labs(y = "Temperature (ºC)", caption = "Source: https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-sbc.6005.3#", title = "Average Daily Ocean Temperatures, 2011-2020, Santa Barbara Coastal LTER")
+```
+
+```{r}
+fullCal %>%
+  mutate(Station = ifelse(Station == "SBC", "Near-Shore", "Off-Shore")) %>%
+  filter(DecimalYear > 2000 & DecimalYear < 2020) %>%
+  filter(Phosphate < 2.5) %>%
+  ggplot() + 
+#  geom_point(aes(x = DecimalYear, y = Phosphate, color = Station)) + 
+  geom_line(aes(x = DecimalYear, y = Phosphate, color = Station), method ="loess", se = FALSE, size = 1) + 
+  labs(x = "Year", y = "Phosphate (µmol/L)", title = "Oceanic Phosphate Concentrations at Santa Barbara, Near-Shore and Off-Shore") + 
+  scale_color_manual(values = c("lightskyblue", "black")) +
+  theme_classic()
+```
+
+```{r}
+fullCal %>%
+  ggplot() + 
+  geom_point(aes(x = DecimalYear, y = TempC)) + 
+  geom_smooth(aes(x = DecimalYear, y = TempC), method = "loess", se = FALSE) + 
+  labs(x = "Year", y ="Temperature (ºC)", title = "Temperature at Santa Barbara Research Station, 1984-2020", caption = "Data from SBC LTER, https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-sbc.10.27") + 
+  theme_classic()
+```
+
+```{r}
+hawaii %>%
+  ggplot() + 
+  geom_point(aes(x = Year, y = pH)) + 
+  geom_smooth(aes(x = Year, y = pH), method = "loess", se = FALSE) + 
+  theme_classic() + 
+  labs(title = "Ocean pH Measurements from Northeast of the Hawaiian Islands, 1992-2021", caption = "Data obtained via the Hawaii Ocean Time-series HOT-DOGS application; \nUniversity of Hawai'i at Mānoa. National Science Foundation Award # 1756517")
+```
