@@ -38,7 +38,7 @@ california <- california %>%
          Time = hm(Time))
 
 fullsbc2 <- chemssmall %>%
-  full_join(ctdsmall, by = join_by(decimal_year))
+  dplyr::full_join(ctdsmall, by = join_by(decimal_year))
 
 fullsbc <- fullsbc2 %>%
   dplyr::select(-yyyy.hyphen.mm.hyphen.dd.x, -hh.colon.mm.x, -yyyy.hyphen.mm.hyphen.dd.y, -hh.colon.mm.y) %>%
