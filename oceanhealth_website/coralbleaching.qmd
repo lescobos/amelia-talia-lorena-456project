@@ -14,8 +14,6 @@ library(rnaturalearthdata)
 library(maps)
 library(readr)
 library(dplyr)
-library(tibble)
-library(gt)
 library(rnoaa)
 ```
 
@@ -36,21 +34,39 @@ Since this data-set is on corals, the ethical issues have to do with gathering i
 
 ```{r include=FALSE}
 coralbleaching <- read_csv("CoralBleaching.csv")
-```
 
-```{r include= FALSE}
 names(coralbleaching)
 
 coralclean <- coralbleaching %>% 
   group_by(REGION, YEAR) %>%
   summarise(REGION, YEAR, mean(SEVERITY_CODE)) %>% 
   unique()
-```
 
-```{r include= FALSE}
 world <- ne_countries(scale = "medium", returnclass = "sf")
 class(world)
 ```
+
+The following visualization shows the spread of the coral bleaching events. This map shows the world and the various coral bleaching events on top world outline. This map shows us where most of the events occur but not necessarily when or how. As seen in the graph, most of the coral bleaching events occur around the equator. This makes sense because the equator is where there is warmer water and a rise in ocean temperatures is one of the many causes of coral bleaching. 
+
+```{r fig.alt= "This is a map that shows the world and then the various coral bleaching events on top of the world. This suggests where most of the events occur but not necessarily when or how. As shown in the graph, most of the coral bleaching events occur around the equator in the warmer waters. This makes sense given the abckground of why coral bleaching occurs and its indicators."}
+ggplot(data = world) +
+  geom_sf() +
+  geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
+        shape = 23, fill = "darkred") +
+  coord_sf(xlim = c(-160, 160), ylim = c(-90, 90), expand = FALSE) +
+  theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(family = "mono"),
+        plot.subtitle = element_text(family = "mono"),
+        axis.title.y = element_text(family = "mono"),
+        axis.title.x = element_text(family = "mono", vjust = 0.5)) +
+  labs(title = "Coral Bleaching Events Around the World",
+       y = "Latitude",
+       x = "Longitude",
+       caption = "Plot by Talia Chait | Data from Harvard Dataverse")
+```
+
+This is a scatter plot graph that shows the average severity code of the coral bleaching over time for the regions of Africa, Americas, Asia, Australia, Middle East, and Pacific. The original severity code variable is on a scale of -1 to 3 with -1 meaning unknown, 0 meaning no bleaching, 1 meaning low severity, 2 meaning medium severity, and 3 meaning high severity. Overall, the graph suggests that over time there has a been a change in coral bleaching severity with minimal differences between the regions. In order to explore more of the differences, we have to look into the total number of coral bleaching events per region by the severity of the bleaching events. 
 
 ```{r fig.alt="This is a line graph that shows the average severity code of the coral bleaching over time for the regions of Africa, Americas, Asia, Australia, Middle East, and Pacific. The original severity code variable is on a scale of -1 to 3 with -1 meaning unknown, 0 meaning no bleaching, 1 meaning low severity, 2 meaning medium severity, and 3 meaning high severity. Overall, the graph suggests that over time there has a been a change in coral bleaching severity with minimal differences between the regions."}
 coralclean %>%
@@ -75,40 +91,24 @@ coralclean %>%
         axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
 
+So, now that we know more about where coral bleaching events occur and why they occur, the next thing we need to understand is to what severity do they occur and in which region(s) is the severity the worst/best? In order to answer this question, a simple bar graph was created with the 6 regions on the Y axis and the number of coral bleaching events on the X axis. This graph shows that the Americas and Australia exceed the other 4 regions with total number of events of 2,000 plus events. Additionally, the break down of bleaching severity shows that the Americas have a larger amount of low bleaching events than Australia does while Australia has a larger number of high bleaching events than the Americas do. 
 
-```{r}
-ggplot(data = world) +
-  geom_sf() +
-  geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
-        shape = 23, fill = "darkred") +
-  coord_sf(xlim = c(-160, 160), ylim = c(-90, 90), expand = FALSE) +
-  theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
-        plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5)) +
-  labs(title = "Coral Bleaching Events Around the World",
-       y = "Latitude",
-       x = "Longitude",
-       caption = "Plot by Talia Chait | Data from Harvard Dataverse")
-```
-
-
-```{r}
-coral_count <- coralbleaching %>% 
-  group_by(REGION) %>%
+```{r fig.alt= "This is a bar plot that shows the 6 regions and the total number of bleaching events per region broken up by bleaching severity. The results show that the Americas and Australia exceed the other 4 regions with total number of events of 2,000 plus events. Additionally, the break down of bleaching severity shows that the Americas have a larger amount of low bleaching events than Australia does while Australia has a larger number of high bleaching events than the Americas do."}
+coral_countsev <- coralbleaching %>% 
+  group_by(REGION, BLEACHING_SEVERITY) %>%
   count(REGION)
 
-coral_count %>% 
+coral_countsev %>% 
   filter(REGION %in% c("Africa", "Americas", "Asia", "Australia", "Middle East", "Pacific")) %>% 
-  ggplot(mapping = aes(x= reorder(REGION, n), y = n)) + 
+  ggplot(mapping = aes(x= reorder(REGION, n), y = n, fill = BLEACHING_SEVERITY)) + 
   geom_col() +
+  scale_fill_viridis_d() +
   coord_flip() + 
   theme_classic() +
   labs(title = "Total Number of Coral Bleaching Events per Region", 
        x = "", 
-       y = "", 
+       y = "",
+       legend = "",
        caption = "Plot by Talia Chait | Data from Harvard Dataverse") + 
    theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
         plot.title.position = "plot",
@@ -118,7 +118,6 @@ coral_count %>%
         legend.text = element_text(family = "mono"), 
         legend.title = element_text(family = "mono"))
 ```
-
 
 
 ### Resources
