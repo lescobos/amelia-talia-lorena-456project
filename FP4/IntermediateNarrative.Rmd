@@ -30,6 +30,9 @@ library(rnaturalearth)
 library(rnaturalearthdata)
 library(maps)
 library(readr)
+library(devtools)
+library(ersst)
+library(ggmap)
 ```
 
 # Introduction
@@ -76,7 +79,7 @@ class(world)
 
 The following visualization shows the spread of the coral bleaching events. This map shows the world and the various coral bleaching events on top world outline. This map shows us where most of the events occur but not necessarily when or how. As seen in the graph, most of the coral bleaching events occur around the equator. This makes sense because the equator is where there is warmer water and a rise in ocean temperatures is one of the many causes of coral bleaching.
 
-```{r fig alt= "This is a map that shows the world and then the various coral bleaching events on top of the world. This suggests where most of the events occur but not necessarily when or how. As shown in the graph, most of the coral bleaching events occur around the equator in the warmer waters - which makes sense given the abckground of why coral bleaching occurs and its indicators."}
+```{r fig.alt= "This is a map that shows the world and then the various coral bleaching events on top of the world. This suggests where most of the events occur but not necessarily when or how. As shown in the graph, most of the coral bleaching events occur around the equator in the warmer waters - which makes sense given the abckground of why coral bleaching occurs and its indicators."}
 ggplot(data = world) +
   geom_sf() +
   geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2,
@@ -121,7 +124,7 @@ coralclean %>%
 
 So, now that we know more about where coral bleaching events occur and why they occur, the next thing we need to understand is to what severity do they occur and in which region(s) is the severity the worst/best? In order to answer this question, a simple bar graph was created with the 6 regions on the Y axis and the number of coral bleaching events on the X axis. This graph shows that the Americas and Australia exceed the other 4 regions with total number of events of 2,000 plus events. Additionally, the break down of bleaching severity shows that the Americas have a larger amount of low bleaching events than Australia does while Australia has a larger number of high bleaching events than the Americas do.
 
-```{r, fig alt= "This is a bar plot that shows the 6 regions and the total number of bleaching events per region broken up by bleaching severity. The results show that the Americas and Australia exceed the other 4 regions with total number of events of 2,000 plus events. Additionally, the break down of bleaching severity shows that the Americas have a larger amount of low bleaching events than Australia does while Australia has a larger number of high bleaching events than the Americas do. "}
+```{r, fig.alt= "This is a bar plot that shows the 6 regions and the total number of bleaching events per region broken up by bleaching severity. The results show that the Americas and Australia exceed the other 4 regions with total number of events of 2,000 plus events. Additionally, the break down of bleaching severity shows that the Americas have a larger amount of low bleaching events than Australia does while Australia has a larger number of high bleaching events than the Americas do. "}
 coral_countsev <- coralbleaching %>% 
   group_by(REGION, BLEACHING_SEVERITY) %>%
   count(REGION)
@@ -184,7 +187,7 @@ california <- california %>%
          Month = str_sub(Date, start = 6, end = 7))
 
 fullsbc2 <- chemssmall %>%
-  full_join(ctdsmall, by = join_by(decimal_year))
+  full_join(ctdsmall, by = "decimal_year")
 
 fullsbc <- fullsbc2 %>%
   dplyr::select(-yyyy.hyphen.mm.hyphen.dd.x, -hh.colon.mm.x, -yyyy.hyphen.mm.hyphen.dd.y, -hh.colon.mm.y) %>%
