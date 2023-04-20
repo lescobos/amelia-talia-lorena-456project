@@ -44,37 +44,28 @@ coralclean <- coralbleaching %>%
 
 world <- ne_countries(scale = "medium", returnclass = "sf")
 class(world)
-```
-
-
-```{r}
 
 coralcountperregion <- coralbleaching %>% 
   group_by(REGION, YEAR) %>%
   summarise(REGION, YEAR) %>% 
    count()
 
-coralcountperregion %>%
-  filter(REGION != "NA") %>%
-  ggplot(aes(x = YEAR, y = n, color = REGION)) +
-  geom_line() +
-  facet_wrap(vars(REGION)) + 
-  theme_classic() +
-  labs(x = "Year",
-       y = "",
-       title = "Number of Bleaching Events per Region from 1970 to 2012",
-       caption = "Plot by: Talia Chait  Data Source: Harvard Dataverse",
-       color = NULL) +
-   theme(legend.position = "none",
-        plot.title = element_text(family = "mono", face = "bold", size = 12, ),
-        plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5))
+coralcountperregionbleach <- coralbleaching %>% 
+  group_by(REGION, YEAR, BLEACHING_SEVERITY) %>%
+  summarise(REGION, YEAR, BLEACHING_SEVERITY) %>% 
+   count()
+
+coralcountperregionbleach %>%
+  filter(REGION == "Australia", 
+         BLEACHING_SEVERITY %in% c("HIGH", "Medium")) %>%
+  group_by(YEAR) %>% 
+  mutate(sumperyear = sum(n)) %>% 
+  summarize(REGION, YEAR, sumperyear) %>% 
+  unique() %>% 
+  mutate(percentMedHigh = sumperyear/2229)
 ```
 
-```{r}
+```{r warning = FALSE}
 coralcountperregion %>%
   filter(REGION == "Australia") %>%
   ggplot(aes(x = YEAR, y = n)) +
@@ -101,13 +92,49 @@ coralcountperregion %>%
         plot.subtitle = element_text(family = "mono"),
         axis.title.y = element_text(family = "mono"),
         axis.title.x = element_text(family = "mono", vjust = 0.5))
+```
 
-#el nino events impact australia more than la nina events...el nino generally brings warmer ocean temperatures while la nina brings the opposite. Therefore, la nina events tend to prevent mass coral bleaching events (according to great barrier reef foundation). As we see on the graph, the two spikes in the number of bleaching events are directly correlated with the el nino very strong year in 1997 and the moderate year in 2002.
-# for example, el nino very strong in 1997 brought 1244 bleaching events while the la nina strong in 1999 brough 13 bleaching events (significant difference) - makes sense with difference between effects of el nino and la nina 
+el nino events impact australia more than la nina events...el nino generally brings warmer ocean temperatures while la nina brings the opposite. Therefore, la nina events tend to prevent mass coral bleaching events (according to great barrier reef foundation). As we see on the graph, the two spikes in the number of bleaching events are directly correlated with the el nino very strong year in 1997 and the moderate year in 2002.
+for example, el nino very strong in 1997 brought 1244 bleaching events while the la nina strong in 1999 brough 13 bleaching events (significant difference) - makes sense with difference between effects of el nino and la nina 
+
+```{r warning = FALSE}
+coralcountperregionbleach %>%
+  filter(REGION == "Australia", 
+         BLEACHING_SEVERITY %in% c("HIGH", "Medium")) %>%
+  group_by(YEAR) %>% 
+  mutate(sumperyear = sum(n)) %>% 
+  summarize(REGION, YEAR, sumperyear) %>% 
+  unique() %>% 
+  mutate(percentMedHigh = sumperyear/2229) %>% 
+  ggplot(aes(x = YEAR, y = percentMedHigh)) +
+  geom_line() +
+  theme_classic() +
+  scale_x_discrete(limits = c(1991, 1996, 2001, 2006)) +
+  annotate("point", x = 1998, y= 0.2265589951	, size = 3, color = "red") +
+  annotate("text", x = 2000.75, y = 0.2265589951	, label = "El Niño '97 (very strong)", color = "red") +
+  annotate("point", x = 2002, y= 0.10, size = 3, color = "red") +
+  annotate("text", x = 2004.5, y = 0.10, label = "El Niño '02 (moderate)", color = "red") +
+  annotate("point", x = 2007, y= 0, size = 3, color = "blue") +
+  annotate("text", x = 2007, y = -0.01, label = "La Niña '07 (strong)", color = "blue") +
+  annotate("point", x = 1999, y= 0.0013458950, size = 3, color = "blue") +
+  annotate("text", x = 1999, y = -0.01, label = "La Niña '99 (strong)", color = "blue") +
+  labs(x = "Year",
+       y = "",
+       title = "Percent of Medium and High Bleaching Events in Australia",
+       subtitle = "(from 1991 to 2009)",
+       caption = "Plot by: Talia Chait | Data Source: Harvard Dataverse",
+       color = NULL) +
+   theme(legend.position = "none",
+        plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(family = "mono"),
+        plot.subtitle = element_text(family = "mono"),
+        axis.title.y = element_text(family = "mono"),
+        axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
 
 ### Australia Spatial Viz 
-```{r}
+```{r warning = FALSE}
 ggplot(data = world) +
   geom_sf() +
   geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
@@ -164,8 +191,8 @@ ggplot(data = world) +
 ### Resources
 [Data: Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4)
 
-[https://oceanservice.noaa.gov/facts/coral_bleach.html](https://oceanservice.noaa.gov/facts/coral_bleach.htm)
+[NOAA: What is Coral Bleaching](https://oceanservice.noaa.gov/facts/coral_bleach.html)
 
-[https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/](https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/)
+[Greenspace: Coral Image](https://www.greenpeace.org/usa/whats-killing-coral-reefs-and-how-can-we-stop-it/)
 
-[https://education.nationalgeographic.org/resource/el-nino/](https://education.nationalgeographic.org/resource/el-nino/)
+[National Geographic: El Niño vs La Niña](https://education.nationalgeographic.org/resource/el-nino/)

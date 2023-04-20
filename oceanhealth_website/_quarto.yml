@@ -10,6 +10,7 @@ website:
       - coralbleaching.qmd
       - chemical.qmd
       - fishpop.qmd
+      - discussion.qmd
       - about.qmd
       - icon: github
         href: https://github.com/lescobos/amelia-talia-lorena-456project
