@@ -1,7 +1,7 @@
 ---
-title: "About Us"
+title: "About"
 ---
 
 This website was created in Projects in Data Science by Amelia Renner, Talia Chait, and Lorena Escobosa Alcantar in spring semester 2023 at Macalester College. 
 
-We want to thank Professor Brianna Heggeseth for advising us on this project, Professor Louisa Bradtmiller for giving us more 
+We want to thank Professor Brianna Heggeseth for advising us on this project, Professor Louisa Bradtmiller for giving us helpful feedback on our visualizations and insightful ideas of what to look into. 

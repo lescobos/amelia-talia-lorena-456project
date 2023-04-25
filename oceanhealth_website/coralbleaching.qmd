@@ -15,6 +15,7 @@ library(maps)
 library(readr)
 library(dplyr)
 library(rnoaa)
+library(stringr)
 ```
 
 ### What is Coral Bleaching?  
@@ -32,7 +33,7 @@ Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harv
 Since this data-set is on corals, the ethical issues have to do with gathering information from marine life and and how much the data collection could cause harms. While the harms are minor, the benefits of this data being collected goes well beyond the health of the corals. This is because coral bleaching is an indicator of climate change so collecting data on the health of corals could have lasting impacts on reducing global warming. 
 
 
-```{r include=FALSE}
+```{r , include = FALSE}
 coralbleaching <- read_csv("CoralBleaching.csv")
 
 names(coralbleaching)
@@ -63,8 +64,15 @@ coralcountperregionbleach %>%
   summarize(REGION, YEAR, sumperyear) %>% 
   unique() %>% 
   mutate(percentMedHigh = sumperyear/2229)
+
+coralbleachmedhigh <- coralbleaching %>% 
+  filter(BLEACHING_SEVERITY %in% c("HIGH", "Medium"),
+         REGION == "Australia") %>%
+  mutate(BLEACHING_SEVERITY = recode(BLEACHING_SEVERITY, `HIGH` = 'High', `Medium` = 'Medium')) %>% 
+  select(REGION, LON, LAT, YEAR, BLEACHING_SEVERITY)
 ```
 
+#### El Niño/La Niña Events and Coral Bleaching
 ```{r warning = FALSE}
 coralcountperregion %>%
   filter(REGION == "Australia") %>%
@@ -124,7 +132,7 @@ coralcountperregionbleach %>%
        subtitle = "(from 1991 to 2009)",
        caption = "Plot by: Talia Chait | Data Source: Harvard Dataverse",
        color = NULL) +
-   theme(legend.position = "none",
+  theme(legend.position = "none",
         plot.title = element_text(family = "mono", face = "bold", size = 12, ),
         plot.title.position = "plot",
         plot.caption = element_text(family = "mono"),
@@ -133,25 +141,8 @@ coralcountperregionbleach %>%
         axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
 
-### Australia Spatial Viz 
+#### Spatial Visualizations 
 ```{r warning = FALSE}
-ggplot(data = world) +
-  geom_sf() +
-  geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
-        shape = 23, fill = "darkred") +
-  coord_sf(xlim = c(-160, 160), ylim = c(-90, 90), expand = FALSE) +
-  theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
-        plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5)) +
-  theme_classic() + 
-  labs(title = "Coral Bleaching Events Around the World",
-       y = "Latitude",
-       x = "Longitude",
-       caption = "Plot created by Talia Chait | Data from Harvard Dataverse")
-
 ggplot(data = world) +
   geom_sf() +
   geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
@@ -168,23 +159,27 @@ ggplot(data = world) +
        y = "Latitude",
        x = "Longitude",
        caption = "Plot created by Talia Chait | Data from Harvard Dataverse")
+```
 
+
+```{r}
 ggplot(data = world) +
   geom_sf() +
-  geom_point(data = coralbleaching, aes(x = LON, y = LAT, fill = BLEACHING_SEVERITY), size = 2, 
-        shape = 23) +
+  geom_point(data = coralbleachmedhigh, aes(x = LON, y = LAT, fill = BLEACHING_SEVERITY), size = 2, shape = 23) +
+  facet_wrap(~YEAR) + 
   coord_sf(xlim = c(140, 160), ylim = c(-30, -10), expand = FALSE) +
+  theme_classic() + 
+  labs(title = "Coral Bleaching Events in Australia",
+       subtitle = "near Great Barrier Reef",
+       y = "",
+       x = "",
+       fill = "Bleaching Severity",
+       caption = "Plot created by Talia Chait | Data from Harvard Dataverse") +
   theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
-        plot.title.position = "plot",
+        plot.title.position = "panel",
         plot.caption = element_text(family = "mono"),
         plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5)) +
-  theme_classic() + 
-  labs(title = "Coral Bleaching Events in Australia (near Great Barrier Reef)",
-       y = "Latitude",
-       x = "Longitude",
-       caption = "Plot created by Talia Chait | Data from Harvard Dataverse")
+        legend.position = "bottom")
 ```
 
 
