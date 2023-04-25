@@ -93,15 +93,13 @@ coralcountperregion %>%
   labs(x = "Year",
        y = "",
        title = "Number of Bleaching Events in Australia from 1980 to 2010",
-       caption = "Plot by: Talia Chait  Data Source: Harvard Dataverse",
+       caption = "Plot by: Talia Chait | Data Source: Harvard Dataverse",
        color = NULL) +
    theme(legend.position = "none",
-        plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5))
+        plot.caption = element_text(face = "italic"),
+        axis.title.x = element_text(vjust = 0.5))
 ```
 
 el nino events impact australia more than la nina events...el nino generally brings warmer ocean temperatures while la nina brings the opposite. Therefore, la nina events tend to prevent mass coral bleaching events (according to great barrier reef foundation). As we see on the graph, the two spikes in the number of bleaching events are directly correlated with the el nino very strong year in 1997 and the moderate year in 2002. for example, el nino very strong in 1997 brought 1244 bleaching events while the la nina strong in 1999 brough 13 bleaching events (significant difference) - makes sense with difference between effects of el nino and la nina
@@ -133,13 +131,11 @@ coralcountperregionbleach %>%
        subtitle = "(from 1991 to 2009)",
        caption = "Plot by: Talia Chait | Data Source: Harvard Dataverse",
        color = NULL) +
-  theme(legend.position = "none",
-        plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+   theme(legend.position = "none",
+        plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5))
+        plot.caption = element_text(face = "italic"),
+        axis.title.x = element_text(vjust = 0.5))
 ```
 
 #### Spatial Visualizations
@@ -150,27 +146,31 @@ ggplot(data = world) +
   geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
         shape = 23, fill = "darkred") +
   coord_sf(xlim = c(100, 160), ylim = c(-50, 0), expand = FALSE) +
-  theme_classic() + 
+  theme_void() + 
   labs(title = "Coral Bleaching Events in Australia",
-       y = "Latitude",
-       x = "Longitude",
+       y = "",
+       x = "",
        caption = "Plot created by Talia Chait | Data from Harvard Dataverse") +
-   theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+    theme(legend.position = "none",
+        plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5))
+        plot.caption = element_text(face = "italic"),
+        axis.title.x = element_text(vjust = 0.5))
 ```
 
 ```{r}
 #| warning: FALSE
 #| width: 800px
 
+coralbleachmedhigh4yrs <- coralbleachmedhigh %>% 
+  filter(YEAR %in% c("1998", "1999", "2002", "2006")) %>% 
+  mutate(type = ifelse(YEAR %in% c("1998", "2002"), "El Niño", "La Niña")) 
+
+
 ggplot(data = world) +
   geom_sf() +
-  geom_point(data = coralbleachmedhigh, aes(x = LON, y = LAT, fill = BLEACHING_SEVERITY), size = 2, shape = 23) +
-  facet_wrap(~YEAR) + 
+  geom_point(data = coralbleachmedhigh4yrs, aes(x = LON, y = LAT, fill = BLEACHING_SEVERITY), size = 2, shape = 23) +
+  facet_wrap(vars(YEAR)) + 
   coord_sf(xlim = c(140, 160), ylim = c(-30, -10), expand = FALSE) +
   theme_void() + 
   labs(title = "Coral Bleaching Events in Australia",
@@ -179,11 +179,13 @@ ggplot(data = world) +
        x = "",
        fill = "Bleaching Severity",
        caption = "Plot created by Talia Chait | Data from Harvard Dataverse") +
-  theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
-        plot.title.position = "panel",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        legend.position = "bottom")
+   theme(legend.position = "bottom",
+        plot.title = element_text(face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(face = "italic"),
+        axis.title.x = element_text(vjust = 0.5))
+
+#ask brianna about double facet/getting words on top of the graph :) 
 ```
 
 ### Resources
