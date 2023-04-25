@@ -18,20 +18,21 @@ library(rnoaa)
 library(stringr)
 ```
 
-### What is Coral Bleaching?  
+### What is Coral Bleaching?
+
 Coral Bleaching is the act of corals losing their vibrant colors and turning white through being stressed. The leading cause of coral bleaching is climate change. This includes an increase in ocean temperature, overexposure to sunlight, or harmful nutrients from runoff or pollution. Any of these conditions could cause the coral to expel the symbiotic algae living in their tissues which in turn causes the corals to turn completely white - hence the bleaching term.
 
 ![Image Caption: A coral reef that is healthy (on the left) versus a coral reef that is bleached (on the right) - source: Greenspace](coralbleachingimage.png)
 
-### Why is it important? 
-It is important to remember that while corals are not necessarily "dead" from a coral bleaching event, it is still crucial to make sure they survive the bleaching events. Corals provide resources to many species that call the ocean their homes. By understanding the patterns in coral bleaching and bleaching severity, we can evaluate ocean health and understand what we can do to prevent more coral reefs from being bleached and ultimately prevent more damage to our oceans. 
+### Why is it important?
 
-### Data, Visualizations, and Results 
+It is important to remember that while corals are not necessarily "dead" from a coral bleaching event, it is still crucial to make sure they survive the bleaching events. Corals provide resources to many species that call the ocean their homes. By understanding the patterns in coral bleaching and bleaching severity, we can evaluate ocean health and understand what we can do to prevent more coral reefs from being bleached and ultimately prevent more damage to our oceans.
 
-Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4) which is a free data repository that is open to all researchers from any discipline (both inside and outside of Harvard University). It allows researchers to share, archive, cite, and access different data-sets. It was published to the repository in 2016 but has data from the mid 1800s. 
+### Data, Visualizations, and Results
 
-Since this data-set is on corals, the ethical issues have to do with gathering information from marine life and and how much the data collection could cause harms. While the harms are minor, the benefits of this data being collected goes well beyond the health of the corals. This is because coral bleaching is an indicator of climate change so collecting data on the health of corals could have lasting impacts on reducing global warming. 
+Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4) which is a free data repository that is open to all researchers from any discipline (both inside and outside of Harvard University). It allows researchers to share, archive, cite, and access different data-sets. It was published to the repository in 2016 but has data from the mid 1800s.
 
+Since this data-set is on corals, the ethical issues have to do with gathering information from marine life and and how much the data collection could cause harms. While the harms are minor, the benefits of this data being collected goes well beyond the health of the corals. This is because coral bleaching is an indicator of climate change so collecting data on the health of corals could have lasting impacts on reducing global warming.
 
 ```{r , include = FALSE}
 coralbleaching <- read_csv("CoralBleaching.csv")
@@ -73,6 +74,7 @@ coralbleachmedhigh <- coralbleaching %>%
 ```
 
 #### El Niño/La Niña Events and Coral Bleaching
+
 ```{r warning = FALSE}
 coralcountperregion %>%
   filter(REGION == "Australia") %>%
@@ -102,8 +104,7 @@ coralcountperregion %>%
         axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
 
-el nino events impact australia more than la nina events...el nino generally brings warmer ocean temperatures while la nina brings the opposite. Therefore, la nina events tend to prevent mass coral bleaching events (according to great barrier reef foundation). As we see on the graph, the two spikes in the number of bleaching events are directly correlated with the el nino very strong year in 1997 and the moderate year in 2002.
-for example, el nino very strong in 1997 brought 1244 bleaching events while the la nina strong in 1999 brough 13 bleaching events (significant difference) - makes sense with difference between effects of el nino and la nina 
+el nino events impact australia more than la nina events...el nino generally brings warmer ocean temperatures while la nina brings the opposite. Therefore, la nina events tend to prevent mass coral bleaching events (according to great barrier reef foundation). As we see on the graph, the two spikes in the number of bleaching events are directly correlated with the el nino very strong year in 1997 and the moderate year in 2002. for example, el nino very strong in 1997 brought 1244 bleaching events while the la nina strong in 1999 brough 13 bleaching events (significant difference) - makes sense with difference between effects of el nino and la nina
 
 ```{r warning = FALSE}
 coralcountperregionbleach %>%
@@ -141,34 +142,37 @@ coralcountperregionbleach %>%
         axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
 
-#### Spatial Visualizations 
-```{r warning = FALSE}
+#### Spatial Visualizations
+
+```{r, warning = FALSE}
 ggplot(data = world) +
   geom_sf() +
   geom_point(data = coralbleaching, aes(x = LON, y = LAT), size = 2, 
         shape = 23, fill = "darkred") +
   coord_sf(xlim = c(100, 160), ylim = c(-50, 0), expand = FALSE) +
-  theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
-        plot.title.position = "plot",
-        plot.caption = element_text(family = "mono"),
-        plot.subtitle = element_text(family = "mono"),
-        axis.title.y = element_text(family = "mono"),
-        axis.title.x = element_text(family = "mono", vjust = 0.5)) +
   theme_classic() + 
   labs(title = "Coral Bleaching Events in Australia",
        y = "Latitude",
        x = "Longitude",
-       caption = "Plot created by Talia Chait | Data from Harvard Dataverse")
+       caption = "Plot created by Talia Chait | Data from Harvard Dataverse") +
+   theme(plot.title = element_text(family = "mono", face = "bold", size = 12, ),
+        plot.title.position = "plot",
+        plot.caption = element_text(family = "mono"),
+        plot.subtitle = element_text(family = "mono"),
+        axis.title.y = element_text(family = "mono"),
+        axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
 
-
 ```{r}
+#| warning: FALSE
+#| width: 800px
+
 ggplot(data = world) +
   geom_sf() +
   geom_point(data = coralbleachmedhigh, aes(x = LON, y = LAT, fill = BLEACHING_SEVERITY), size = 2, shape = 23) +
   facet_wrap(~YEAR) + 
   coord_sf(xlim = c(140, 160), ylim = c(-30, -10), expand = FALSE) +
-  theme_classic() + 
+  theme_void() + 
   labs(title = "Coral Bleaching Events in Australia",
        subtitle = "near Great Barrier Reef",
        y = "",
@@ -182,8 +186,8 @@ ggplot(data = world) +
         legend.position = "bottom")
 ```
 
-
 ### Resources
+
 [Data: Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4)
 
 [NOAA: What is Coral Bleaching](https://oceanservice.noaa.gov/facts/coral_bleach.html)
