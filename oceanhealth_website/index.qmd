@@ -22,7 +22,7 @@ library(gganimate)
 
 In this project, we looked at Ocean Health as an indicator of climate change. Climate change/global warming is the event in which air pollution, runoff, and other things cause our Earth's temperature to increase. This is why there have been colder winters and hotter summers or more extreme weather events. You may be asking yourself, how do we know climate change is happening? Well, take a look at the graph below. This graph shows the annual temperature anomalies (or differences from the mean of 0). As seen, the graph has a positive correlation between time and temperature. This shows that over time there is an overall increase in sea surface temperatures.
 
-```{r include = FALSE}
+```{r, include = FALSE}
 SST <- read_csv("sea-surface-temp.csv")
 ```
 
@@ -50,12 +50,14 @@ SST %>%
 In order to dive deeper into the effects of climate change on ocean health, we considered 3 different locations all around the world that we are calling "case studies" all of which help answer our research questions: 1) How is ocean health changing over time? and 2) How is ocean health changing due to climate change? 
 
 The first case study looks into coral bleaching specifically in Australia, where the Great Barrier Reef is, and tackles the effects of La Niña vs El Niño. The second case study looks into chemicals off the coast of Santa Barbara, California, USA to take a different approach on how ocean health is chaning over time. The third case study looks into fish populations in the Mediterranean Sea as an indicator of ocean health. The tabs on this website correspond to each of the case studies, so please click on whichever tab you are most interested in to learn more about that topic!
-```{r, warning = FALSE, include = FALSE}
+```{r, include = FALSE}
+#| warning: false
 world <- ne_countries(scale = "medium", returnclass = "sf")
 class(world)
 ```
 
-```{r warning = FALSE}
+```{r}
+#| warning: false
 ggplot(data = world) + 
   geom_sf() + 
   annotate("point", x = 134, y = -25, color = "cyan1", size = 4) + 

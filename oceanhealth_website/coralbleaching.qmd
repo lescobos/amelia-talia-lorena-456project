@@ -75,7 +75,7 @@ coralbleachmedhigh <- coralbleaching %>%
 
 #### Why Australia?
 
-While coral bleaching effects corals and coral reefs worldwide, I decided to focus in on Australia because Australia is home to the Great Barrier Reef. The Great Barrier Reef is one of the largest, most popular coral reefs across the globe. The visualization below shows all the bleaching events that occurred in Australia from 1980 to 2010. As seen on the graphic, there is a congestion of bleaching events (points) near the Great Barrier Reef. So if the Great Barrier Reef has the most concentrated amount of bleaching events over time, then why is it so concentrated - despite the fact that it is a coral reef? Well, turns out the climate patterns of El Niño and La Niña could have that impact. 
+While coral bleaching effects corals and coral reefs worldwide, I decided to focus in on Australia because Australia is home to the Great Barrier Reef. The Great Barrier Reef is one of the largest, most popular coral reefs across the globe. The visualization below shows all the bleaching events that occurred in Australia from 1980 to 2010. As seen on the graphic, there is a congestion of bleaching events (points) near the Great Barrier Reef. So if the Great Barrier Reef has the most concentrated amount of bleaching events over time, then why is it so concentrated - despite the fact that it is a coral reef? Well, turns out the climate patterns of El Niño and La Niña could have that impact.
 
 ```{r}
 #| warning: false
@@ -96,9 +96,10 @@ ggplot(data = world) +
         plot.caption = element_text(face = "italic"),
         axis.title.x = element_text(vjust = 0.5))
 ```
+
 #### El Niño/La Niña Events and Coral Bleaching
 
-The climate patterns of El Niño and La Niña are known to impact surface temperature. El Niño years general result in warmer ocean temperatures while La Niña years generally result in cooler ocean temperatures. As we know, coral bleaching is most impacted by an increase in ocean temperature (hence during El Niño years the number of coral bleaching events should increase). On the contrary, it is expected that during La Niña years, the number of bleaching events should decrease due to the cooler ocean temperatures. In fact, according to the Great Barrier Reef Foundation, La Niña years tend to prevent mass coral bleaching events! For the purpose of simplicity, only four years were chosen to be analyzed: two El Niño years and two La Niña years. The El Niño years were 1997 and 2002 while the La Niña years were 2007 and 2009. The El Niño in 1997 was categorized as "very strong" and the El Niño in 2002 was categorized as "moderate". Both of the La Niña years were categorized as "strong". The reason why these years were chosen was mostly based off the data that was available for coral bleaching events and what the data was showing.  
+The climate patterns of El Niño and La Niña are known to impact surface temperature. El Niño years general result in warmer ocean temperatures while La Niña years generally result in cooler ocean temperatures. As we know, coral bleaching is most impacted by an increase in ocean temperature (hence during El Niño years the number of coral bleaching events should increase). On the contrary, it is expected that during La Niña years, the number of bleaching events should decrease due to the cooler ocean temperatures. In fact, according to the Great Barrier Reef Foundation, La Niña years tend to prevent mass coral bleaching events! For the purpose of simplicity, only four years were chosen to be analyzed: two El Niño years and two La Niña years. The El Niño years were 1997 and 2002 while the La Niña years were 2007 and 2009. The El Niño in 1997 was categorized as "very strong" and the El Niño in 2002 was categorized as "moderate". Both of the La Niña years were categorized as "strong". The reason why these years were chosen was mostly based off the data that was available for coral bleaching events and what the data was showing.
 
 As seen in the line graph below, the two spikes in the number of bleaching events are directly correlated with the El Niño very strong year in 1997 and the moderate year in 2002. Comparing the El Niño and La Niña years shows us that the El Niño event in 1997 caused 1244 bleaching events while the La Niña strong in 1999 caused 13 bleaching events. This is a significant difference between the number of coral bleaching ebents that occurred in Australia. This makes sense with difference between effects of El Niño and La Niña.
 
@@ -131,7 +132,7 @@ coralcountperregion %>%
         axis.title.x = element_text(vjust = 0.5))
 ```
 
-Similar to last line graph, the graph below shows the percent medium and high bleaching events in Australia from 1991 to 2009. The results suggests that there is an increase in bleaching severity during El Niño years as opposed to during La Niña years. This is also significant because comparing the graph below to the graph above, we can see a similar pattern with regards to the spikes and which years they correspond to. For example, the previous graph shows that more than 1200 bleaching events occurred during the El Niño event in 1997. While, the graph below shows that more than 0.2 percent of the bleaching events in 1997 were medium and high severity. The fact that these two graphs have the same big increase in amount/percent during the same year which happens to be an El Niño yea shows us that El Niño (and La Niña) years have a huge effect on coral bleaching which directly relates back to ocean health. 
+Similar to last line graph, the graph below shows the percent medium and high bleaching events in Australia from 1991 to 2009. The results suggests that there is an increase in bleaching severity during El Niño years as opposed to during La Niña years. This is also significant because comparing the graph below to the graph above, we can see a similar pattern with regards to the spikes and which years they correspond to. For example, the previous graph shows that more than 1200 bleaching events occurred during the El Niño event in 1997. While, the graph below shows that more than 0.2 percent of the bleaching events in 1997 were medium and high severity. The fact that these two graphs have the same big increase in amount/percent during the same year which happens to be an El Niño yea shows us that El Niño (and La Niña) years have a huge effect on coral bleaching which directly relates back to ocean health.
 
 ```{r}
 #| warning: false
@@ -168,7 +169,8 @@ coralcountperregionbleach %>%
         plot.caption = element_text(face = "italic"),
         axis.title.x = element_text(vjust = 0.5))
 ```
-Finally, the graph below shows spatial location of bleaching events as it relates to the Great Barrier Reef in Australia. This graph takes the information learned in the previous two graphs and incorporates spatial mapping to better visualize where the coral bleaching is occurring. However, only the years 1998, 1999, 2002, and 2006 are shown on the graph because those are the four El Niño and La Niña years. The results show that the most bleaching events in the area of the Great Barrier Reef occurred in 1998 and 2002. However, it turns out that 1998 and 2002 are strong and moderate El Niño years (as discussed all along with this case study).  
+
+Finally, the graph below shows spatial location of bleaching events as it relates to the Great Barrier Reef in Australia. This graph takes the information learned in the previous two graphs and incorporates spatial mapping to better visualize where the coral bleaching is occurring. However, only the years 1998, 1999, 2002, and 2006 are shown on the graph because those are the four El Niño and La Niña years. The results show that the most bleaching events in the area of the Great Barrier Reef occurred in 1998 and 2002. However, it turns out that 1998 and 2002 are strong and moderate El Niño years (as discussed all along with this case study).
 
 ```{r}
 #| warning: FALSE
@@ -198,7 +200,7 @@ ggplot(data = world) +
         axis.title.x = element_text(vjust = 0.5))
 ```
 
-### Why is this case study important? 
+### Why is this case study important?
 
 Throughout this case study we have proven many times that El Niño and La Niña can impact a corals health and possibly cause coral bleaching. This is important to know because coral is home to many marine species and provides homes, resources, and nutrients to lots of marine life. If more coral to became bleached then that means some marine life species could be without a home or food source. It is important for us humans to think about the implications and lasting effects of our actions not just on ourselves but also the other life forms that call Earth their home!
 
