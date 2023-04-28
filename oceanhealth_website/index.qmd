@@ -1,5 +1,5 @@
 ---
-title: "Ocean Health"
+title: "Beyond the Sea: Insights on how Climate Change is affecting Ocean Health"
 ---
 
 ```{r setup, include=FALSE}
