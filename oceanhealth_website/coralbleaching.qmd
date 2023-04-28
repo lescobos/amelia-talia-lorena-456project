@@ -89,11 +89,10 @@ ggplot(data = world) +
   labs(title = "Coral Bleaching Events in Australia",
        y = "",
        x = "",
-       caption = "Graphic created by Talia Chait | Data from Harvard Dataverse") +
+       caption = "Map by T. Chait | Source: Harvard Dataverse") +
     theme(legend.position = "none",
         plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(face = "italic"),
         axis.title.x = element_text(vjust = 0.5))
 ```
 
@@ -123,12 +122,11 @@ coralcountperregion %>%
   labs(x = "Year",
        y = "",
        title = "Number of Bleaching Events in Australia from 1980 to 2010",
-       caption = "Plot by: Talia Chait | Data Source: Harvard Dataverse",
+       caption = " Graphic by T. Chait | Source: Harvard Dataverse",
        color = NULL) +
    theme(legend.position = "none",
         plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(face = "italic"),
         axis.title.x = element_text(vjust = 0.5))
 ```
 
@@ -161,12 +159,11 @@ coralcountperregionbleach %>%
        y = "",
        title = "Percent of Medium and High Bleaching Events in Australia",
        subtitle = "(from 1991 to 2009)",
-       caption = "Plot by: Talia Chait | Data Source: Harvard Dataverse",
+       caption = "Graphic by T. Chait | Source: Harvard Dataverse",
        color = NULL) +
    theme(legend.position = "none",
         plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(face = "italic"),
         axis.title.x = element_text(vjust = 0.5))
 ```
 
@@ -179,12 +176,12 @@ Finally, the graph below shows spatial location of bleaching events as it relate
 
 coralbleachmedhigh4yrs <- coralbleachmedhigh %>% 
   filter(YEAR %in% c("1998", "1999", "2002", "2006")) %>% 
-  mutate(type = ifelse(YEAR %in% c("1998", "2002"), "El Niño", "La Niña")) 
+  mutate(Yeartype = ifelse(YEAR %in% c("1998", "2002"), "El Niño", "La Niña")) 
 
 ggplot(data = world) +
   geom_sf() +
   geom_point(data = coralbleachmedhigh4yrs, aes(x = LON, y = LAT, fill = BLEACHING_SEVERITY), size = 2, shape = 23) +
-  facet_wrap(vars(YEAR)) + 
+  facet_wrap(Yeartype~YEAR) + 
   coord_sf(xlim = c(140, 160), ylim = c(-30, -10), expand = FALSE) +
   theme_void() + 
   labs(title = "Coral Bleaching Events in Australia",
@@ -192,11 +189,10 @@ ggplot(data = world) +
        y = "",
        x = "",
        fill = "Bleaching Severity",
-       caption = "Plot created by Talia Chait | Data from Harvard Dataverse") +
+       caption = "Map by T. Chait | Source: Harvard Dataverse") +
    theme(legend.position = "bottom",
         plot.title = element_text(face = "bold", size = 12, ),
         plot.title.position = "plot",
-        plot.caption = element_text(face = "italic"),
         axis.title.x = element_text(vjust = 0.5))
 ```
 

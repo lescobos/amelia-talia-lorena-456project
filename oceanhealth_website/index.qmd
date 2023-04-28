@@ -42,7 +42,7 @@ SST %>%
        subtitle = "from 1880 to 2020", 
        x = "Year",
        y = "Annual Anomaly",
-       caption = "Plot created by Talia Chait")
+       caption = "Graphic by T.Chait | Source: US Environmental Protection Agency")
 ```
 
 In order to dive deeper into the effects of climate change on ocean health, we considered 3 different locations all around the world that we are calling "case studies" all of which help answer our research question: How is ocean health changing due to climate related increases in temperature?
@@ -76,3 +76,7 @@ ggplot(data = world) +
         axis.title.y = element_text(family = "mono"),
         axis.title.x = element_text(family = "mono", vjust = 0.5))
 ```
+
+Resources: 
+
+[US Environmental Protection Agency: Sea Surface Temperature Data](https://www.epa.gov/climate-indicators/climate-change-indicators-sea-surface-temperature)
