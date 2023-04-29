@@ -114,7 +114,6 @@ dfrastr %>%
   annotate("point", x = 19, y = 35, color = "yellow", size = 2) +
   annotate("label", x = 19, y = 47, label = "Case Study 3") + 
   labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner & T. Chait | Data Source: NASA Earth Observations")
-
 ```
 
 ### Resources: 
