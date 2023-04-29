@@ -10,7 +10,6 @@ The connecting factor between the three case studies is the overall rise in ocea
 
 Additionally, the increase in ocean temperatures will likely increase fish competition intensity beyond normal patterns. Shifting species habitat ranges will result in increased competition, leading to species population decreases. As temperatures increase, ocean chemical concentrations and dissolved oxygen will change, leading to more coral bleaching events. This in turn will affect the myriad species that depend on corals for food and forage. This cycle of shifting chemical concentrations affecting coral bleaching affecting fish populations is a vicious cycle due to anthropogenic (originating in human activity) climate change. 
 
-### Why is this website important?
 
 ### What can you do?
 
@@ -31,8 +30,13 @@ For future research we would Look into ocean health and climate change indicator
 
 
 ### Resources
+
 [Environment: How to stop Ocean warming](https://environment.co/how-to-stop-ocean-warming/)
+
 [USA Environmental Protection Agency: Climate Change](https://www.epa.gov/climate-change)
+
 [United Nations: What is climate change?](https://www.un.org/en/climatechange/what-is-climate-change)
+
 [NASA: Global Climate Change](https://climate.nasa.gov/)
+
 [National Ocean and Atmospheric Administration: Climate Resource Collection](https://www.noaa.gov/education/resource-collections/climate)
