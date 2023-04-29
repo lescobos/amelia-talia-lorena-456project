@@ -202,6 +202,7 @@ Throughout this case study we have proven many times that El Niño and La Niña 
 
 *Additionally, it is important to note that we don't know whether the trends seen in this case study are magnified due to the researchers simply collecting more data during the El Niño years when compared to the La Niña years. It seems as though the trends are seen in many different ways that this would not be the case but when dealing with data it is important to keep in mind!*
 
+
 ### Resources
 
 [Data: Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/KUVQKY/PAMLRZ&version=1.4)

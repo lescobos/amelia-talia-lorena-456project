@@ -2,7 +2,7 @@
 title: "Ocean Chemistry"
 ---
 
-### What is ocean chemistry?
+### What is Ocean Chemistry?
 
 ![](oceanphoto.jpeg){width="358"}
 
@@ -12,7 +12,7 @@ title: "Ocean Chemistry"
 
 Climate change is a phenomenon that affects the entire globe. Over time, our world's oceans are heating as average ambient temperatures rise. Temperature is a large controller of chemical activity; chemicals behave differently at different temperatures. So, how would changing ocean temperatures contribute to differences in ocean chemistry?
 
-### Why is ocean chemistry important?
+### Why is Ocean Chemistry important?
 
 Ocean chemistry involves everything that makes up seawater. Seawater is a unique substance that thousands of species depend on, from the smallest bacteria to coral reefs to massive marine mammals.
 
