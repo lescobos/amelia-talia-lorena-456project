@@ -166,7 +166,6 @@ calinine %>%
              y = 21.75, label = "Strong\nEl Niño", fontface = "bold") + 
   annotate(geom = "text", x = as.Date("2016-5-10"),
              y = 21.75, label = "Strong\nEl Niño", fontface = "bold")
-
 ```
 
 The first thing we examined was temperature differences due to the El Niño Southern Oscillation ([ENSO](https://www.weather.gov/mhx/ensowhat)) effect. ENSO causes temperature anomalies over specific years, and our investigation required examination of the extent of ENSO in our study sites.
