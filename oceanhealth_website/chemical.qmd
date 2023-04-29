@@ -1,8 +1,35 @@
 ---
-title: "Chemical"
+title: "Ocean Chemistry"
 ---
 
+### What is ocean chemistry?
+
+![](oceanphoto.jpeg){width="358"}
+
+*Image Source: [EPA Archive](https://archive.epa.gov/climatechange/kids/images/2-1-4-photo1.jpg)*
+
+[Ocean chemistry](https://www.marinebio.org/oceans/ocean-chemistry/) refers to chemicals that are present in the ocean, as well as the behaviors of those chemicals over time. Common marine chemicals include salts, dissolved gasses, and anthropogenic pollutants. Researchers monitor common chemical concentrations to look for indications of how climate change is affecting the world's marine environments.
+
+Climate change is a phenomenon that affects the entire globe. Over time, our world's oceans are heating as average ambient temperatures rise. Temperature is a large controller of chemical activity; chemicals behave differently at different temperatures. So, how would changing ocean temperatures contribute to differences in ocean chemistry?
+
+### Why is ocean chemistry important?
+
+Ocean chemistry involves everything that makes up seawater. Seawater is a unique substance that thousands of species depend on, from the smallest bacteria to coral reefs to massive marine mammals.
+
+pH is one unique metric of ocean chemistry. pH is a number that refers to how acidic or alkaline a liquid is. A smaller number indicates a more acidic substance, while a larger number indicates a more alkaline or basic liquid.
+
+Ocean pH was approximately 8.2 before industrialization, or when humans began emitting large amounts of greenhouse gasses into the environment. Oceans are [becoming more acidic](https://www.epa.gov/climate-indicators/climate-change-indicators-ocean-acidity) over time because of increased carbon emissions.
+
+Many marine organisms are sensitive to even small changes in pH. Animals that build their skeletons from carbon are especially sensitive. Measuring pH and other indicators of ocean health are important for predicting changes in sensitive marine species.
+
+[![](pHScale.png)](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png) Image Source: [EPA](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png)
+
 ```{r, include=FALSE}
+#| warning: false 
+#| message: false
+
+knitr::opts_chunk$set(echo = TRUE)
+
 # Libraries
 library(plyr)
 library(lattice)
@@ -14,19 +41,20 @@ library(lubridate)
 library(Rmisc)
 library(ggrepel)
 library(sf)
+library(fuzzyjoin)
+library(scico)
+library(tiff)
+library(ggmap)
+library(raster)
 
 # Reading Data
-arctic <- read.csv("ArcticLTER.csv")
 california <- read.csv("SantaBarbaraLTER.csv")
-antcruise <- read.csv("AntarcticaLTERcompiledData_Cruise_forEDI.csv")
-cce<-read.csv("CCEdata.csv")
-hawaii <- read.csv("trythis.csv")
-chemssmall <- read.csv("chemssmall.csv")
-ctdsmall <- read.csv("ctdsmall.csv")
-
+cce <- read.csv("CCEdata.csv")
+nineyears <- read.csv("nineyears.csv")
 ```
 
 ```{r}
+#|include = false
 # Data Cleaning 
 
 california <- california %>%
@@ -35,25 +63,10 @@ california <- california %>%
          Time = str_sub(datetime_UTC, start = 12)) %>%
   mutate(Date = ymd(Date), 
          Year = as.numeric(Year), 
-         Time = hm(Time))
-
-fullsbc2 <- chemssmall %>%
-  dplyr::full_join(ctdsmall, by = "decimal_year")
-
-fullsbc <- fullsbc2 %>%
-  dplyr::select(-yyyy.hyphen.mm.hyphen.dd.x, -hh.colon.mm.x, -yyyy.hyphen.mm.hyphen.dd.y, -hh.colon.mm.y) %>%
-  mutate(DecimalYear = decimal_year, 
-         Phosphate = phosphate, 
-         Ammonium = ammonium, 
-         Phosphorous = total_dissolved_phosphorus, 
-         Nitrogen = total_dissolved_nitrogen, 
-         pH = mean_pH) %>%
-  dplyr::select(Actual_Depth_m, DecimalYear, Phosphate, Ammonium, Phosphorous, Ammonium, pH) %>%
-  mutate(TempC = NA, 
-         Silicate = NA,
-         Nitrate = NA, 
-         Nitrite = NA, 
-         Station = "SBC")
+         Time = hm(Time)) %>%
+  dplyr::group_by(Date) %>%
+  summarize(pH = mean(pH,na.rm=TRUE),
+            temp_c = mean(temp_c,na.rm=TRUE))
 
 cce2 <- cce %>%
   dplyr::select(Year, Temp..C., P04..µmol.L., SIO3..µmol.L., NO2..µmol.L., NO3..µmol.L.) %>%
@@ -69,70 +82,216 @@ cce2 <- cce %>%
          Phosphorous = NA, 
          Ammonium = NA, 
          pH = NA, 
-         Station = "CCE")
+         Station = "CCE") 
 
-
-fullCal <- fullsbc %>%
-  rbind(cce2)
-
-hawaii <- hawaii %>%
-  mutate(BottleID = str_sub(BottleID.Date.Time.Pressure.pH, start = 2, end = 11), 
-         Date = str_sub(BottleID.Date.Time.Pressure.pH, start = 14, end = 19), 
-         Time = str_sub(BottleID.Date.Time.Pressure.pH, start = 22, end = 27), 
-         Pressure = str_sub(BottleID.Date.Time.Pressure.pH, start = 30), 
-         pH = str_sub(BottleID.Date.Time.Pressure.pH, start = -7, end = -3)) %>%
-  mutate(Pressure = gsub(",.*","",Pressure), 
-         Pressure = as.numeric(Pressure), 
-         Date = mdy(Date), 
-         Time = as.numeric(Time),
-         pH = as.numeric(pH)) %>%
-  mutate(Pressure = as.numeric(Pressure)) %>%
-  mutate(Year = year(Date), 
-         Month = month(Date)) %>%
-  dplyr::select(-BottleID.Date.Time.Pressure.pH) %>%
-  group_by(Year, Month) %>%
-  dplyr::summarize(pH = mean(pH))
 
 ```
 
 ```{r}
+tiff <- raster("/Users/ameliarenner/Documents/Projects in DS/MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF")
+
+rastr <- rasterToPoints(tiff, spatial = TRUE)
+
+dfrastr <- data.frame(rastr)
+
+dfrastr %>%
+  mutate(MYD28M_2022.12.01_rgb_3600x1800.FLOAT = na_if(MYD28M_2022.12.01_rgb_3600x1800.FLOAT, 99999)) %>%
+  ggplot() + 
+  geom_raster(aes(x = x, y = y, fill = MYD28M_2022.12.01_rgb_3600x1800.FLOAT)) + 
+  ggtitle("") + 
+  coord_equal() + 
+  theme_bw() + 
+  scale_fill_viridis_c(na.value = "black") + 
+  theme(panel.grid = element_blank(), 
+        panel.background = element_rect(fill = "transparent"), 
+        plot.background = element_rect(fill = "transparent"),
+        panel.border = element_blank(),
+        plot.margin = unit(c(0, 0, 0, 0), "null"),
+        panel.margin = unit(c(0, 0, 0, 0), "null"),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        axis.line = element_blank(),
+        axis.ticks.length = unit(0, "null"),
+        axis.ticks.margin = unit(0, "null"),
+        legend.margin = margin(unit(0, "null")), 
+        plot.title = element_text(face = "bold")) + 
+  annotate("point", x = 134, y = -25, color = "yellow", size = 2) +
+  annotate("label", x = 137, y = -37, label = "Case Study 1") +
+  annotate("point", x = -120, y = 34, color = "yellow", size = 2) +
+  annotate("label", x = -120, y = 22, label = "Case Study 2") +
+  annotate("point", x = 19, y = 35, color = "yellow", size = 2) +
+  annotate("label", x = 19, y = 47, label = "Case Study 3") + 
+  labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner & T. Chait | Data Source: NASA Earth Observations")
+
+```
+
+### Why California?
+
+We looked at data from the Santa Barbara and California Current Ecosystem Long Term Ecological Research (LTER) sites. Both sites are located in Santa Barbara, California, on the west coast of the United States. These sites were chosen because they offer two unique marine ecosystems in close proximity, yielding easier comparison. Additionally, since LTER sites are fundeach site has an abundance of freely available long-term data from numerous research endeavors.
+
+```{r}
+#| message: false
+sbmap <- get_stamenmap(
+    bbox = c(left = -122.640, bottom = 31.508, right = -117.773, top = 35.012), 
+    maptype = "toner-lite",
+    zoom = 7)
+
+
+# Plot the points on the map
+ggmap(sbmap) + # creates the map "background"
+  geom_point(aes(x = -120.27980, y = 32.87360), color = "blue") + 
+  annotate(geom = "text", x = -120.7, y = 34.35, label = "Santa Barbara LTER", color = "blue", size = 4) + 
+  geom_point(aes(x = -119.84220, y = 34.41250), color = "blue") + 
+  annotate(geom = "text", x = -120.25, y = 32.75, label = "California Current Ecosystem LTER", color = "blue", size = 4) + 
+  theme(axis.title.y = element_blank(), 
+        axis.title.x = element_blank()) + 
+  labs(caption = "Map by A. Renner | Source: NSF LTER Network")
+```
+
+The Santa Barbara site is on the coast of the Pacific Ocean, where the warm waters of Southern California meet the cold waters of the California Current. The California Current ecosystem studies the cooler waters of the California Current, which bring water south from British Columbia.
+
+![](californiacurrent.png)
+
+Image Source: [Wikipedia](https://en.wikipedia.org/wiki/California_Current#/media/File:Diagram_of_California_Current_System.png)
+
+### El Niño, La Niña, & ocean chemistry
+
+```{r}
+#| warning: false
+#| message: false
+# el nino - 97/98, 2002
+# la nina - 99 07
+
+nineyears <- nineyears %>%
+  mutate('01' = X1, 
+         "02" = X2, 
+         "03" = X3, 
+         "04" = X4, 
+         "05" = X5, 
+         "06" = X6, 
+         "07" = X7, 
+         "08" = X8, 
+         "09" = X9, 
+         "10" = X10, 
+         "11" = X11, 
+         "12" = X12) %>%
+  dplyr::select(!X1:X12) %>% 
+  pivot_longer(!Year,
+               names_to = "Month", 
+               values_to = 'Value') %>%
+  na.omit() %>% 
+  mutate(MonthYear = str_c(Month, Year, sep = "-")) %>%
+  mutate(MonthStart = my(MonthYear)) %>%
+  mutate(MonthEnd = MonthStart + 30) #%>%
+
+
+calinine <- fuzzy_left_join(
+  california, nineyears,
+  by = c(
+    "Date" = "MonthStart",
+    "Date" = "MonthEnd"),
+  match_fun = list(`>=`, `<=`))
 # Ocean Temperatures
-california %>%
+calinine %>%
   filter(temp_c > 0) %>%
   ggplot() + 
-  geom_line(aes(x = Date, y = temp_c), ) + 
-  geom_smooth(aes(x = Date, y = temp_c)) + 
+  geom_line(aes(x = Date, y = temp_c, color = Value)) +
   theme_classic() + 
-  labs(y = "Temperature (ºC)", caption = "Source: https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-sbc.6005.3#", title = "Average Daily Ocean Temperatures, 2011-2020, Santa Barbara Coastal LTER")
+  theme(plot.title = element_text(face = "bold")) + 
+  labs(y = "Temperature (ºC)", caption = "Graphic by A. Renner | Source: Santa Barbara LTER & Golden Gate Weather Service", title = "Average Daily Ocean Temperatures, 2011-2020, Santa Barbara LTER", color = "El Niño/\nLa Niña \nEffect") + 
+  scale_color_scico(palette = "roma", direction = -1) + 
+  annotate(geom = "text", x = as.Date("2011-8-05"),
+             y = 19.75, label = "Strong\nLa Niña", fontface = "bold") + 
+  annotate(geom = "text", x = as.Date("2016-5-10"),
+             y = 21.75, label = "Strong\nEl Niño", fontface = "bold") + 
+  annotate(geom = "text", x = as.Date("2016-5-10"),
+             y = 21.75, label = "Strong\nEl Niño", fontface = "bold")
+
 ```
 
-```{r}
-fullCal %>%
-  mutate(Station = ifelse(Station == "SBC", "Near-Shore", "Off-Shore")) %>%
-  filter(DecimalYear > 2000 & DecimalYear < 2020) %>%
-  filter(Phosphate < 2.5) %>%
-  ggplot() + 
-#  geom_point(aes(x = DecimalYear, y = Phosphate, color = Station)) + 
-  geom_line(aes(x = DecimalYear, y = Phosphate, color = Station), method ="loess", se = FALSE, size = 1) + 
-  labs(x = "Year", y = "Phosphate (µmol/L)", title = "Oceanic Phosphate Concentrations at Santa Barbara, Near-Shore and Off-Shore") + 
-  scale_color_manual(values = c("lightskyblue", "black")) +
-  theme_classic()
-```
+The first thing we examined was temperature differences due to the El Niño Southern Oscillation ([ENSO](https://www.weather.gov/mhx/ensowhat)) effect. ENSO causes temperature anomalies over specific years, and our investigation required examination of the extent of ENSO in our study sites.
+
+Our visualization shows that ENSO contributes to some of the anomalies seen at the Santa Barbara Site. The greatest temperature peak occurred 2015-2016, which was a year characterized as a strong El Niño year.
+
+However, the temperature peak in 2019 occurred during a year with a small El Niño impact. Impacts of the strong La Niña year in 2011 were not evident in daily ocean temperature measurements.
+
+This disconnection between Santa Barbara ocean temperatures indicates that more of the variation we see in temperatures is due to something other than ENSO. This is an important consideration as we continue to investigate ocean chemistry changes; ENSO does not unilaterally control ocean temperature in Santa Barbara.
+
+Although ENSO effects aren't the only major driver of temperature differences in Santa Barbara, does temperature affect marine chemicals?
+
+This investigation was driven by the hypothesis that warmer temperatures would produce [algae blooms](https://www.epa.gov/nutrientpollution/climate-change-and-harmful-algal-blooms), which occur during periods of warmth. Algae blooms are harmful because algae grow and consume all available resources, then die after resources are depleted. Once they die, they decompose through a [process](https://biologydictionary.net/aerobic-respiration/) that requires oxygen. This depletes dissolved oxygen concentrations and affects any marine organism that respires, including fish and marine mammals.
+
+An increase in algal activity would be evident through peaks in aqueous [chlorophyll](https://www.epa.gov/national-aquatic-resource-surveys/indicators-chlorophyll#:~:text=What%20is%20chlorophyll%20a%3F,in%20green%20plants%20and%20algae.). Chlorophyll is the pigment that makes plants green.
 
 ```{r}
-fullCal %>%
-  ggplot() + 
-  geom_point(aes(x = DecimalYear, y = TempC)) + 
-  geom_smooth(aes(x = DecimalYear, y = TempC), method = "loess", se = FALSE) + 
-  labs(x = "Year", y ="Temperature (ºC)", title = "Temperature at Santa Barbara Research Station, 1984-2020", caption = "Data from SBC LTER, https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-sbc.10.27") + 
-  theme_classic()
+#| message: false
+cce %>%
+  mutate(Month = as.numeric(str_sub(Year, start = 5))) %>%
+  mutate(Season = ifelse(Month <= 0.9 & Month >= 0.4, "Warm", "Cool")) %>%
+  filter(Season == "Cool") %>%
+  ggplot() +
+  geom_col(aes(y = Temp.Anomaly..C., x = Year, color = Temp.Anomaly..C. > 0)) +
+  geom_smooth(aes(y = Chl..µg.L., x = Year), color = "dark green", se = FALSE) +
+  scale_color_manual(values = c("blue", "red")) + 
+  theme_bw() + 
+  theme(legend.position = "none", plot.title = element_text(face = "bold")) + 
+  labs(y = "Anomaly (ºC and µg/L)", title = "Temperature & Chlorophyll Anomalies, CCE LTER Station, winter 1984-2019", subtitle = "Bars represent temperature (ºC) anomalies and line represents chlorophyll (µg/L) anomalies", caption = "Graphic by A. Renner | Source: California Current Ecosystem LTER & Golden Gate Weather Service") 
+
 ```
 
+We see two peaks in chlorophyll in 1999 and 2019. These peaks would indicate algae blooms occurred. These are also times associated with higher-than-normal temperatures, the red peaks that occurred in 1999 and 2015/2016. It is likely that these temperatures spurred above-average algae growth, causing a spike in chlorophyll concentrations.
+
+This indicates that the impacts of algae blooms, including production of toxic chemicals and oxygen depletion, likely occurred during this time period.
+
+Additionally, when algae grow, they absorb CO2. Absorbing CO2 causes a [drop in pH](https://blog.orendatech.com/co2-and-ph-henrys-law), or an increase in acidity. Since warmer temperatures are associated with algae blooms, are they also associated with acidification?
+
 ```{r}
-hawaii %>%
+#| warning: false
+# preindustrial ocean ph = 8.2
+# source : https://www.epa.gov/ocean-acidification/understanding-science-ocean-and-coastal-acidification
+calinine %>%
+  mutate(Month = as.numeric(Month)) %>%
+  mutate(MonthDec = Month/12, 
+         MonthDec = str_sub(MonthDec, start = 2), 
+         MonthYear = str_c(Year, MonthDec)) %>%
+  dplyr::mutate(pHAnomaly = pH - 8.2, 
+                MonthYear = as.numeric(MonthYear)) %>%
+  dplyr::group_by(MonthYear) %>%
+  dplyr::summarize(meanAnomaly = mean(pHAnomaly),
+            Value = mean(Value)) %>%
   ggplot() + 
-  geom_point(aes(x = Year, y = pH)) + 
-  geom_smooth(aes(x = Year, y = pH), method = "loess", se = FALSE) + 
+  geom_col(aes(x = MonthYear, y = Value, fill = Value > 0)) + 
+  scale_fill_manual(values=c("#194bff", "#f00a0a")) + 
+  geom_point(aes(x = MonthYear, y = meanAnomaly), size = 2) + 
+  labs(x = "Year", y = "Magnitude", title = "pH Difference from Pre-Industrial Mean versus ENSO Effects", subtitle = "pH differences plotted as black points, El Niño effects as red, positive lines, and La Niña \neffects as blue, negative lines", caption = "Graphic by A. Renner | Sources: Golden Gate Weather Service & Santa Barbara LTER") + 
   theme_classic() + 
-  labs(title = "Ocean pH Measurements from Northeast of the Hawaiian Islands, 1992-2021", caption = "Data obtained via the Hawaii Ocean Time-series HOT-DOGS application; \nUniversity of Hawai'i at Mānoa. National Science Foundation Award # 1756517")
+  theme(legend.position = "none", plot.title = element_text(face = "bold")) + 
+  scale_x_continuous(limits = c(2011.5, 2021), breaks = c(2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021))
+
 ```
+
+An association between warmer temperatues and acidification (lower pH) is not visible from the above visualization. The black points show how different pH measurements are from the average [post-industrial pH](https://www.epa.gov/ocean-acidification/understanding-science-ocean-and-coastal-acidification) of 8.2. A marine pH of 8.2 indicates a healthy ocean ecosystem without the effects of climate change or anthropogenic pollution.
+
+This visualization shows pH anomalies are fairly consistent over time. This indicates that the ENSO effect alone does not influence algae blooms enough to yield significant changes in pH.
+
+This is an important finding for two reasons:
+
+1.  First, it is a good sign that El Niño years are not associated with pH increases. ENSO effects are [intensifying](https://www.nature.com/articles/s41561-021-00730-3) with increased greenhouse gas emissions, meaning that ENSO-attributable acidification would only get worse in the coming decades. Since we do not see any indication of ENSO-attributable acidification, it is unlikely that ENSO intensification would significantly contribute to greater acidification in Santa Barbara marine ecosystems.
+2.  Second, pH anomalies are stable over time in Santa Barbara ecosystems. Although pH decreasing across the globe, the pH anomalies seen at the SBC station are stable over time. This is a promising result, since Santa Barbara is home to many diverse, important marine ecosystems that are sensitive to acidification.
+
+### Why is this case study important?
+
+The Santa Barbara Coastal and California Current Environment provide a unique example of two sites in close proximity and with ample data. Ocean chemistry is a critical metric for how our marine environments are changing due to climate change.
+
+Awareness of the changes our oceans are experiencing is important to reduce long-term impacts, spur change, and improve ocean protection regulations.
+
+### Resources
+
+*Data sources:*
+
+[California Coastal Ecosystem LTER](https://portal.edirepository.org/nis/metadataviewer?packageid=knb-lter-cce.17.4)
+
+[Golden Gate Weather Service](https://ggweather.com/enso/oni.htm) (ENSO Data)
+
+[Santa Barbara Coastal LTER](https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-sbc.10.27)
