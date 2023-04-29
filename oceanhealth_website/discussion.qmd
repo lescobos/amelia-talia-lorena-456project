@@ -2,14 +2,15 @@
 title: "Discussion"
 ---
 
-### What is the connection between the three Case Studies?
+### What is the connection Between the three case studies?
 
-The connecting factor between the three case studies is the overall rise in ocean temperatures which are impacted by El Niño and La Niña events. Temperature affects ocean chemistry which can impact different levels of the food chain. It can also affect corals and cause more coral bleaching because higher ocean temperatures leads to a decrease in oxygen. This decrease in oxygen has been found to cause an increase in coral bleaching. Additionally, temperature affects fish species because different species prefer different ocean temperatures.
+We investigated how ocean health is changing due to climate change related increases in temperature. 
 
-Additionally, the increase in ocean temperatures increases the intensity of competition beyond normal patterns. If the ocean temperature increases, then chemical concentrations will change which will cause more coral bleaching events which will then impact fish populations who need corals to survive (either for homes or food). This cycle is never ending and is not natural simply due to climate change.
+The connecting factor between the three case studies is the overall rise in ocean temperatures due to climate change. These changes are especially severe during El Niño and La Niña events. Temperature affects ocean chemistry, which can further impact different levels of the food chain. Higher ocean temperatures can cause algae blooms or affect concentrations of dissolved chemicals, which alter the ecosystems that marine creatures depend on. Also, higher temperatures are associated with increases in coral bleaching because higher ocean temperatures leads to a decrease in dissolved oxygen. Decreases in dissolved oxygen have been found to cause increased coral bleaching. This decrease in oxygen has been found to cause an increase in coral bleaching. Additionally, temperature can impact fish species that depend on ocean temperatures. Fish species that prefer water of different temperatures will be unable to live within normal ranges as temperatures shift due to climate change. This will likely result in a mismatch of predators, prey, and resources, causing decreases in fish and predator populations.
 
-To answer our research question, ocean health can be measured by so many different metrics and is variable so it is hard to quantify how “healthy” the ocean is at any given point in time. In this project we looked at three metrics: 1) coral bleaching, 2) chemical concentrations, and 3) fish populations. Even though there are many more metrics that impact overall ocean health, we do see that across all the case studies, climate change (specifically El Niño and La Niña) does have a huge impact! This is a crucial finding because we can easily change our habits to reduce/slow the impact of global warming which could then actually make the ocean healthier! 
+Additionally, the increase in ocean temperatures will likely increase fish competition intensity beyond normal patterns. Shifting species habitat ranges will result in increased competition, leading to species population decreases. As temperatures increase, ocean chemical concentrations and dissolved oxygen will change, leading to more coral bleaching events. This in turn will affect the myriad species that depend on corals for food and forage. This cycle of shifting chemical concentrations affecting coral bleaching affecting fish populations is a vicious cycle due to anthropogenic (originating in human activity) climate change. 
 
+### Why is this website important?
 
 ### What can you do?
 

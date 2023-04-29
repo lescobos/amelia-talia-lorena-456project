@@ -41,7 +41,7 @@ library(lubridate)
 library(Rmisc)
 library(ggrepel)
 library(sf)
-library(fuzzyjoin)
+library(fuzzyjoin) #install.packages("fuzzyjoin)
 library(scico)
 library(tiff)
 library(ggmap)
@@ -83,8 +83,6 @@ cce2 <- cce %>%
          Ammonium = NA, 
          pH = NA, 
          Station = "CCE") 
-
-
 ```
 
 ### Why California?
