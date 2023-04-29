@@ -1,5 +1,5 @@
 ---
-title: "Ocean Health"
+title: "Beyond the Sea: Insights on how Climate Change is affecting Ocean Health"
 ---
 
 ```{r setup, include=FALSE}
@@ -42,7 +42,7 @@ SST %>%
        subtitle = "from 1880 to 2020", 
        x = "Year",
        y = "Annual Anomaly",
-       caption = "Plot created by Talia Chait")
+       caption = "Graphic by T.Chait | Source: US Environmental Protection Agency")
 ```
 
 In order to dive deeper into the effects of climate change on ocean health, we considered 3 different locations all around the world that we are calling "case studies" all of which help answer our research question: How is ocean health changing due to climate related increases in temperature?
@@ -115,3 +115,7 @@ dfrastr %>%
   labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner & T. Chait | Data Source: NASA Earth Observations")
 
 ```
+
+### Resources: 
+
+[US Environmental Protection Agency: Sea Surface Temperature Data](https://www.epa.gov/climate-indicators/climate-change-indicators-sea-surface-temperature)
