@@ -156,7 +156,7 @@ The Santa Barbara site is on the coast of the Pacific Ocean, where the warm wate
 
 Image Source: [Wikipedia](https://en.wikipedia.org/wiki/California_Current#/media/File:Diagram_of_California_Current_System.png)
 
-### El Niño, La Niña, & ocean chemistry
+### El Niño/La Niña & Ocean Chemistry
 
 ```{r}
 #| warning: false
