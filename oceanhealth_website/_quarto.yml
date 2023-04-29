@@ -10,6 +10,7 @@ website:
         text: Home
       - coralbleaching.qmd
       - chemical.qmd
+        text: Ocean Chemistry
       - fishpop.qmd
       - discussion.qmd
       - about.qmd
