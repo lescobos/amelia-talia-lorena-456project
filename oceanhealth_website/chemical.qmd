@@ -4,7 +4,7 @@ title: "Ocean Chemistry"
 
 ### What is Ocean Chemistry?
 
-![](oceanphoto.jpeg){width="358"}
+![](Images/oceanphoto.jpeg){width="358"}
 
 *Image Source: [EPA Archive](https://archive.epa.gov/climatechange/kids/images/2-1-4-photo1.jpg)*
 
@@ -22,7 +22,7 @@ Ocean pH was approximately 8.2 before industrialization, or when humans began em
 
 Many marine organisms are sensitive to even small changes in pH. Animals that build their skeletons from carbon are especially sensitive. Measuring pH and other indicators of ocean health are important for predicting changes in sensitive marine species.
 
-[![](pHScale.png)](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png) Image Source: [EPA](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png)
+[![](Images/pHScale.png)](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png) Image Source: [EPA](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png)
 
 ```{r, include=FALSE}
 #| warning: false 
@@ -48,9 +48,9 @@ library(ggmap)
 library(raster)
 
 # Reading Data
-california <- read.csv("SantaBarbaraLTER.csv")
-cce <- read.csv("CCEdata.csv")
-nineyears <- read.csv("nineyears.csv")
+california <- read.csv("Data/SantaBarbaraLTER.csv")
+cce <- read.csv("Data/CCEdata.csv")
+nineyears <- read.csv("Data/nineyears.csv")
 ```
 
 ```{r, include = FALSE}
@@ -89,41 +89,41 @@ cce2 <- cce %>%
 ```{r}
 #| warning: false
 
-tiff <- raster("MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF")
+#tiff <- raster("MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF")
 
-rastr <- rasterToPoints(tiff, spatial = TRUE)
+#rastr <- rasterToPoints(tiff, spatial = TRUE)
 
-dfrastr <- data.frame(rastr)
+#dfrastr <- data.frame(rastr)
 
-dfrastr %>%
-  mutate(MYD28M_2022.12.01_rgb_3600x1800.FLOAT = na_if(MYD28M_2022.12.01_rgb_3600x1800.FLOAT, 99999)) %>%
-  ggplot() + 
-  geom_raster(aes(x = x, y = y, fill = MYD28M_2022.12.01_rgb_3600x1800.FLOAT)) + 
-  ggtitle("") + 
-  coord_equal() + 
-  theme_bw() + 
-  scale_fill_viridis_c(na.value = "black") + 
-  theme(panel.grid = element_blank(), 
-        panel.background = element_rect(fill = "transparent"), 
-        plot.background = element_rect(fill = "transparent"),
-        panel.border = element_blank(),
-        plot.margin = unit(c(0, 0, 0, 0), "null"),
-        panel.margin = unit(c(0, 0, 0, 0), "null"),
-        axis.ticks = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank(),
-        axis.line = element_blank(),
-        axis.ticks.length = unit(0, "null"),
-        axis.ticks.margin = unit(0, "null"),
-        legend.margin = margin(unit(0, "null")), 
-        plot.title = element_text(face = "bold")) + 
-  annotate("point", x = 134, y = -25, color = "yellow", size = 2) +
-  annotate("label", x = 137, y = -37, label = "Case Study 1") +
-  annotate("point", x = -120, y = 34, color = "yellow", size = 2) +
-  annotate("label", x = -120, y = 22, label = "Case Study 2") +
-  annotate("point", x = 19, y = 35, color = "yellow", size = 2) +
-  annotate("label", x = 19, y = 47, label = "Case Study 3") + 
-  labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner & T. Chait | Data Source: NASA Earth Observations")
+#dfrastr %>%
+#  mutate(MYD28M_2022.12.01_rgb_3600x1800.FLOAT = na_if(MYD28M_2022.12.01_rgb_3600x1800.FLOAT, 99999)) %>%
+#  ggplot() + 
+#  geom_raster(aes(x = x, y = y, fill = MYD28M_2022.12.01_rgb_3600x1800.FLOAT)) + 
+#  ggtitle("") + 
+#  coord_equal() + 
+#  theme_bw() + 
+#  scale_fill_viridis_c(na.value = "black") + 
+#  theme(panel.grid = element_blank(), 
+#        panel.background = element_rect(fill = "transparent"), 
+#        plot.background = element_rect(fill = "transparent"),
+#        panel.border = element_blank(),
+#        plot.margin = unit(c(0, 0, 0, 0), "null"),
+#        panel.margin = unit(c(0, 0, 0, 0), "null"),
+#        axis.ticks = element_blank(),
+#        axis.text = element_blank(),
+#        axis.title = element_blank(),
+#        axis.line = element_blank(),
+#        axis.ticks.length = unit(0, "null"),
+#        axis.ticks.margin = unit(0, "null"),
+#        legend.margin = margin(unit(0, "null")), 
+#        plot.title = element_text(face = "bold")) + 
+#  annotate("point", x = 134, y = -25, color = "yellow", size = 2) +
+#  annotate("label", x = 137, y = -37, label = "Case Study 1") +
+#  annotate("point", x = -120, y = 34, color = "yellow", size = 2) +
+#  annotate("label", x = -120, y = 22, label = "Case Study 2") +
+#  annotate("point", x = 19, y = 35, color = "yellow", size = 2) +
+#  annotate("label", x = 19, y = 47, label = "Case Study 3") + 
+#  labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner & T. Chait | Data Source: NASA Earth Observations")
 
 ```
 

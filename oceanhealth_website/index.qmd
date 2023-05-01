@@ -24,7 +24,7 @@ library(gganimate)
 In this project, we looked at Ocean Health as an indicator of climate change. Climate change/global warming is the event in which air pollution, runoff, and other things cause our Earth's temperature to increase. This is why there have been colder winters and hotter summers or more extreme weather events. You may be asking yourself, how do we know climate change is happening? Well, take a look at the graph below. This graph shows the annual temperature anomalies (or differences from the mean of 0). As seen, the graph has a positive correlation between time and temperature. This shows that over time there is an overall increase in sea surface temperatures.
 
 ```{r, include = FALSE}
-SST <- read_csv("sea-surface-temp.csv")
+SST <- read_csv("Data/sea-surface-temp.csv")
 ```
 
 ```{r}
@@ -79,7 +79,7 @@ ggplot(data = world) +
 ```
 
 ```{r}
-tiff <- raster("MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF")
+tiff <- raster("Images/MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF")
 
 rastr <- rasterToPoints(tiff, spatial = TRUE)
 

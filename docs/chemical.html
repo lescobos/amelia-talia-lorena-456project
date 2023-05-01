@@ -186,10 +186,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-ocean-chemistry" id="toc-what-is-ocean-chemistry" class="nav-link active" data-scroll-target="#what-is-ocean-chemistry">What is ocean chemistry?</a></li>
-  <li><a href="#why-is-ocean-chemistry-important" id="toc-why-is-ocean-chemistry-important" class="nav-link" data-scroll-target="#why-is-ocean-chemistry-important">Why is ocean chemistry important?</a></li>
+  <li><a href="#what-is-ocean-chemistry" id="toc-what-is-ocean-chemistry" class="nav-link active" data-scroll-target="#what-is-ocean-chemistry">What is Ocean Chemistry?</a></li>
+  <li><a href="#why-is-ocean-chemistry-important" id="toc-why-is-ocean-chemistry-important" class="nav-link" data-scroll-target="#why-is-ocean-chemistry-important">Why is Ocean Chemistry important?</a></li>
   <li><a href="#why-california" id="toc-why-california" class="nav-link" data-scroll-target="#why-california">Why California?</a></li>
-  <li><a href="#el-niño-la-niña-ocean-chemistry" id="toc-el-niño-la-niña-ocean-chemistry" class="nav-link" data-scroll-target="#el-niño-la-niña-ocean-chemistry">El Niño, La Niña, &amp; ocean chemistry</a></li>
+  <li><a href="#el-niñola-niña-ocean-chemistry" id="toc-el-niñola-niña-ocean-chemistry" class="nav-link" data-scroll-target="#el-niñola-niña-ocean-chemistry">El Niño/La Niña &amp; Ocean Chemistry</a></li>
   <li><a href="#why-is-this-case-study-important" id="toc-why-is-this-case-study-important" class="nav-link" data-scroll-target="#why-is-this-case-study-important">Why is this case study important?</a></li>
   <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
   </ul>
@@ -216,61 +216,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <section id="what-is-ocean-chemistry" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-ocean-chemistry">What is ocean chemistry?</h3>
-<p><img src="oceanphoto.jpeg" class="img-fluid" width="358"></p>
+<h3 class="anchored" data-anchor-id="what-is-ocean-chemistry">What is Ocean Chemistry?</h3>
+<p><img src="Images/oceanphoto.jpeg" class="img-fluid" width="358"></p>
 <p><em>Image Source: <a href="https://archive.epa.gov/climatechange/kids/images/2-1-4-photo1.jpg">EPA Archive</a></em></p>
 <p><a href="https://www.marinebio.org/oceans/ocean-chemistry/">Ocean chemistry</a> refers to chemicals that are present in the ocean, as well as the behaviors of those chemicals over time. Common marine chemicals include salts, dissolved gasses, and anthropogenic pollutants. Researchers monitor common chemical concentrations to look for indications of how climate change is affecting the world’s marine environments.</p>
 <p>Climate change is a phenomenon that affects the entire globe. Over time, our world’s oceans are heating as average ambient temperatures rise. Temperature is a large controller of chemical activity; chemicals behave differently at different temperatures. So, how would changing ocean temperatures contribute to differences in ocean chemistry?</p>
 </section>
 <section id="why-is-ocean-chemistry-important" class="level3">
-<h3 class="anchored" data-anchor-id="why-is-ocean-chemistry-important">Why is ocean chemistry important?</h3>
+<h3 class="anchored" data-anchor-id="why-is-ocean-chemistry-important">Why is Ocean Chemistry important?</h3>
 <p>Ocean chemistry involves everything that makes up seawater. Seawater is a unique substance that thousands of species depend on, from the smallest bacteria to coral reefs to massive marine mammals.</p>
 <p>pH is one unique metric of ocean chemistry. pH is a number that refers to how acidic or alkaline a liquid is. A smaller number indicates a more acidic substance, while a larger number indicates a more alkaline or basic liquid.</p>
 <p>Ocean pH was approximately 8.2 before industrialization, or when humans began emitting large amounts of greenhouse gasses into the environment. Oceans are <a href="https://www.epa.gov/climate-indicators/climate-change-indicators-ocean-acidity">becoming more acidic</a> over time because of increased carbon emissions.</p>
 <p>Many marine organisms are sensitive to even small changes in pH. Animals that build their skeletons from carbon are especially sensitive. Measuring pH and other indicators of ocean health are important for predicting changes in sensitive marine species.</p>
-<p><a href="https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png"><img src="pHScale.png" class="img-fluid"></a> Image Source: <a href="https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png">EPA</a></p>
+<p><a href="https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png"><img src="Images/pHScale.png" class="img-fluid"></a> Image Source: <a href="https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png">EPA</a></p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tiff <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF"</span>)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tiff &lt;- raster("MYD28M_2022-12-01_rgb_3600x1800.FLOAT.TIFF")</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rastr <span class="ot">&lt;-</span> <span class="fu">rasterToPoints</span>(tiff, <span class="at">spatial =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#rastr &lt;- rasterToPoints(tiff, spatial = TRUE)</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>dfrastr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(rastr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#dfrastr &lt;- data.frame(rastr)</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>dfrastr <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MYD28M_2022.12.01_rgb_3600x1800.FLOAT =</span> <span class="fu">na_if</span>(MYD28M_2022.<span class="fl">12.01</span>_rgb_3600x1800.FLOAT, <span class="dv">99999</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">fill =</span> MYD28M_2022.<span class="fl">12.01</span>_rgb_3600x1800.FLOAT)) <span class="sc">+</span> </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">""</span>) <span class="sc">+</span> </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span> </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span> </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>), </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"null"</span>),</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"null"</span>),</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"null"</span>),</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.margin =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"null"</span>),</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.margin =</span> <span class="fu">margin</span>(<span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"null"</span>)), </span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>)) <span class="sc">+</span> </span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="dv">134</span>, <span class="at">y =</span> <span class="sc">-</span><span class="dv">25</span>, <span class="at">color =</span> <span class="st">"yellow"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>, <span class="at">x =</span> <span class="dv">137</span>, <span class="at">y =</span> <span class="sc">-</span><span class="dv">37</span>, <span class="at">label =</span> <span class="st">"Case Study 1"</span>) <span class="sc">+</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">120</span>, <span class="at">y =</span> <span class="dv">34</span>, <span class="at">color =</span> <span class="st">"yellow"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">120</span>, <span class="at">y =</span> <span class="dv">22</span>, <span class="at">label =</span> <span class="st">"Case Study 2"</span>) <span class="sc">+</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="dv">19</span>, <span class="at">y =</span> <span class="dv">35</span>, <span class="at">color =</span> <span class="st">"yellow"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>, <span class="at">x =</span> <span class="dv">19</span>, <span class="at">y =</span> <span class="dv">47</span>, <span class="at">label =</span> <span class="st">"Case Study 3"</span>) <span class="sc">+</span> </span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"Temperature</span><span class="sc">\n</span><span class="st">(ºC)"</span>, <span class="at">title =</span> <span class="st">"Water Temperature from MODIS Satellite Data, December 2022"</span>, <span class="at">caption =</span> <span class="st">"Graphic by A. Renner &amp; T. Chait | Data Source: NASA Earth Observations"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#dfrastr %&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  mutate(MYD28M_2022.12.01_rgb_3600x1800.FLOAT = na_if(MYD28M_2022.12.01_rgb_3600x1800.FLOAT, 99999)) %&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  ggplot() + </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_raster(aes(x = x, y = y, fill = MYD28M_2022.12.01_rgb_3600x1800.FLOAT)) + </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  ggtitle("") + </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  coord_equal() + </span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme_bw() + </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  scale_fill_viridis_c(na.value = "black") + </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  theme(panel.grid = element_blank(), </span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#        panel.background = element_rect(fill = "transparent"), </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#        plot.background = element_rect(fill = "transparent"),</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#        panel.border = element_blank(),</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#        plot.margin = unit(c(0, 0, 0, 0), "null"),</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#        panel.margin = unit(c(0, 0, 0, 0), "null"),</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#        axis.ticks = element_blank(),</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#        axis.text = element_blank(),</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#        axis.title = element_blank(),</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#        axis.line = element_blank(),</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#        axis.ticks.length = unit(0, "null"),</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#        axis.ticks.margin = unit(0, "null"),</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#        legend.margin = margin(unit(0, "null")), </span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#        plot.title = element_text(face = "bold")) + </span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#  annotate("point", x = 134, y = -25, color = "yellow", size = 2) +</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#  annotate("label", x = 137, y = -37, label = "Case Study 1") +</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#  annotate("point", x = -120, y = 34, color = "yellow", size = 2) +</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#  annotate("label", x = -120, y = 22, label = "Case Study 2") +</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#  annotate("point", x = 19, y = 35, color = "yellow", size = 2) +</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#  annotate("label", x = 19, y = 47, label = "Case Study 3") + </span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#  labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner &amp; T. Chait | Data Source: NASA Earth Observations")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<p><img src="chemical_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 </section>
 <section id="why-california" class="level3">
@@ -303,8 +300,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="californiacurrent.png" class="img-fluid"></p>
 <p>Image Source: <a href="https://en.wikipedia.org/wiki/California_Current#/media/File:Diagram_of_California_Current_System.png">Wikipedia</a></p>
 </section>
-<section id="el-niño-la-niña-ocean-chemistry" class="level3">
-<h3 class="anchored" data-anchor-id="el-niño-la-niña-ocean-chemistry">El Niño, La Niña, &amp; ocean chemistry</h3>
+<section id="el-niñola-niña-ocean-chemistry" class="level3">
+<h3 class="anchored" data-anchor-id="el-niñola-niña-ocean-chemistry">El Niño/La Niña &amp; Ocean Chemistry</h3>
 <div class="cell">
 <details>
 <summary>Code</summary>
