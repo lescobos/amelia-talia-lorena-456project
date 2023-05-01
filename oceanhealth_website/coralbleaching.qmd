@@ -22,7 +22,7 @@ library(stringr)
 
 Coral Bleaching is the act of corals losing their vibrant colors and turning white through being stressed. The leading cause of coral bleaching is climate change. This includes an increase in ocean temperature, overexposure to sunlight, or harmful nutrients from runoff or pollution. Any of these conditions could cause the coral to expel the symbiotic algae living in their tissues which in turn causes the corals to turn completely white - hence the bleaching term.
 
-![Image Caption: A coral reef that is healthy (on the left) versus a coral reef that is bleached (on the right) - source: Greenspace](coralbleachingimage.png)
+![Image Caption: A coral reef that is healthy (on the left) versus a coral reef that is bleached (on the right) - source: Greenspace](Images/coralbleachingimage.png)
 
 ### Why is it important?
 
@@ -35,7 +35,7 @@ Data was obtained from Harvard Dataverse [(link to data)](https://dataverse.harv
 Since this data-set is on corals, the ethical issues have to do with gathering information from marine life and and how much the data collection could cause harms. While the harms are minor, the benefits of this data being collected goes well beyond the health of the corals. This is because coral bleaching is an indicator of climate change so collecting data on the health of corals could have lasting impacts on reducing global warming.
 
 ```{r , include = FALSE}
-coralbleaching <- read_csv("CoralBleaching.csv")
+coralbleaching <- read_csv("Data/CoralBleaching.csv")
 
 names(coralbleaching)
 

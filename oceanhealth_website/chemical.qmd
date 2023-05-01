@@ -4,7 +4,7 @@ title: "Ocean Chemistry"
 
 ### What is Ocean Chemistry?
 
-![](oceanphoto.jpeg){width="358"}
+![](Images/oceanphoto.jpeg){width="358"}
 
 *Image Source: [EPA Archive](https://archive.epa.gov/climatechange/kids/images/2-1-4-photo1.jpg)*
 
@@ -22,7 +22,7 @@ Ocean pH was approximately 8.2 before industrialization, or when humans began em
 
 Many marine organisms are sensitive to even small changes in pH. Animals that build their skeletons from carbon are especially sensitive. Measuring pH and other indicators of ocean health are important for predicting changes in sensitive marine species.
 
-[![](pHScale.png)](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png) Image Source: [EPA](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png)
+[![](Images/pHScale.png)](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png) Image Source: [EPA](https://www.epa.gov/sites/default/files/2016-11/acidity-ph-scale-figure-2016.png)
 
 ```{r, include=FALSE}
 #| warning: false 
@@ -48,9 +48,9 @@ library(ggmap)
 library(raster)
 
 # Reading Data
-california <- read.csv("SantaBarbaraLTER.csv")
-cce <- read.csv("CCEdata.csv")
-nineyears <- read.csv("nineyears.csv")
+california <- read.csv("Data/SantaBarbaraLTER.csv")
+cce <- read.csv("Data/CCEdata.csv")
+nineyears <- read.csv("Data/nineyears.csv")
 ```
 
 ```{r, include = FALSE}

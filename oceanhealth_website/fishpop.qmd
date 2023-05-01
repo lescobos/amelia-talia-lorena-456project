@@ -22,7 +22,7 @@ library(ggmap)
 
 Mediterranean wrasses are a bright-colored fish species belonging to the Labridae family. Most wrasses inhabit the tropical and subtropical waters of the Atlantic, Pacific, and Indian oceans. Wrasses are usually found in shallow-water habitats such as coral reefs and rocky shores.
 
-![Image Caption:Two types of Mediterranean wrasses: Coris julis (top) and Thalassoma pavo (bottom), Source: Science Direct Article](fish.png)
+![Image Caption:Two types of Mediterranean wrasses: Coris julis (top) and Thalassoma pavo (bottom), Source: Science Direct Article](Images/fish.png)
 
 ### Why the Mediterranean Sea?
 To understand how climate change affects population dynamics in marine biological systems, we focus on temperature fluctuations in the Mediterranean Sea. Scientific literature and conducted studies propose that global warming can induce organisms to adapt or move to track thermal optima, ultimately resulting in spatio-temporal changes (Milazzo et al., 2016). The Mediterranean Sea has sensibly warmed over the past three decades, with an average 0.03°C/year increase in the Western basin and a 0.05°C/year increase in the Eastern basin (Milazzo et al., 2016). The sped up rate at which temperature in the Mediterranean rises makes it an interesting case study.
@@ -42,7 +42,7 @@ In order to join the two data sets, each data set was cleaned by scaling variabl
 #| include: false
 
 #cleaning data
-fish <- read_csv(file = "fish.csv")
+fish <- read_csv(file = "Data/fish.csv")
 
  sst_download(2009:2021, 4:12, "./sst/", version = 5)
       x <- sst_load(2009:2021, 5:12, "./sst/", version = 5)
@@ -126,6 +126,7 @@ world_sf <- ne_countries(scale = 'medium',returnclass = 'sf')
 
 ```{r}
 #| warning: false
+#| message: false
 
 tmp <- medSeaTemp %>% filter(year %in% c(2015,2016),month == 7) 
 
@@ -147,6 +148,7 @@ The following grid of maps shows the spatial distribution and abundance of Coris
 
 ```{r}
 #| warning: false
+#| message: false
 
 world <- get_stamenmap(
   bbox = c(left = -17.14, bottom = 25.80, right = 45.44, top = 51.29),
