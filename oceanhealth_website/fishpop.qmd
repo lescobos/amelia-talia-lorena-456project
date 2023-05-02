@@ -95,14 +95,16 @@ NewDat <- NewDat %>%
 #| warning: false
 
 NewDat %>% 
+  mutate(FishType = ifelse(FishType == "Coris_julis", "C. julis", "T. pavo")) %>% 
   ggplot(aes(x = sst, y = Pred, color = FishType)) + 
   geom_point() + 
   facet_grid(TimePeriod~Month) +
   labs(title = "Predictions for average count of C. julis and T. pavo before and after 2015",
        subtitle = "(in relation to sea surface temperature)",
-       caption = "Graphic by L. Escobosa-Alcantar | Source: National Oceanic and Atmospheric Administration",
-       x = "Sea Surface Temperature",
-       y = "Prediction of Count") +
+       caption = "Graphic by L. Escobosa | Source: National Oceanic and Atmospheric Administration",
+       x = "Sea Surface Temperature (ºC)",
+       y = "Prediction of Count",
+       color = "Fish Type") +
   theme_classic() +
   theme(plot.title = element_text(face = "bold"))
 ```
@@ -136,9 +138,9 @@ ggplot() +
   coord_sf(xlim =  c(-17.14,45.44), ylim = c(25.80, 51.29)) + 
   scale_fill_gradient(low='blue',high='red') + 
   facet_grid(.~year) +
-  labs(fill = 'Temperature', 
+  labs(fill = 'Temperature (ºC)', 
        title = 'Mediterranean Sea Surface Temperature Trends (July 2015/2016)', 
-       caption = "Graphic by L. Escobosa-Alcantar | Source: National Oceanic and Atmospheric Administration ") + ggthemes::theme_map() +  
+       caption = "Map by L. Escobosa | Source: National Oceanic and Atmospheric Administration ") + ggthemes::theme_map() +  
   theme(panel.spacing = unit(0.2, "cm"), 
         legend.position = 'right',
         plot.title = element_text(face = "bold"))
@@ -173,8 +175,8 @@ ggplot() +
   scale_fill_gradient(low='white',high='green') + 
   facet_grid(FishType~Year) + 
   labs(fill = 'Predict Fish Count', 
-       title = 'Predicted count and distribution of C. julis and T. pavo in the Mediterranean Sea (July 2015/2016) ',
-       caption = "Graphic by L. Escobosa-Alcantar | Source: National Oceanic and Atmospheric Administration ") + 
+       title = 'Predicted count and distribution of C. julis and T. pavo in the Mediterranean Sea \n (July 2015/2016) ',
+       caption = "Graphic by L. Escobosa | Source: National Oceanic and Atmospheric Administration ") + 
   ggthemes::theme_map()  + 
   theme(panel.spacing = unit(0.3, "cm"), 
         legend.position='right',
