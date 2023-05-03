@@ -46,7 +46,7 @@ SST %>%
        caption = "Graphic by T.Chait | Source: US Environmental Protection Agency")
 ```
 
-In order to dive deeper into the effects of climate change on ocean health, we considered 3 different locations all around the world that we are calling "case studies" all of which help answer our research question: How is ocean health changing due to climate related increases in temperature?
+In order to dive deeper into the effects of climate change on ocean health, we considered 3 different locations all around the world that we are calling "case studies" all of which help answer our research questions: How is ocean health affected by increases in sea surface temperature? How do seasonal fluctuations of ENSO (El Niño-Southern Oscillation) affect over all ocean health? 
 
 The first case study looks into coral bleaching specifically in Australia, where the Great Barrier Reef is, and tackles the effects of La Niña vs El Niño. The second case study looks into chemicals off the coast of Santa Barbara, California, USA to take a different approach on how ocean health is chaning over time. The third case study looks into fish populations in the Mediterranean Sea as an indicator of ocean health. The tabs on this website correspond to each of the case studies, so please click on whichever tab you are most interested in to learn more about that topic!
 
@@ -90,6 +90,6 @@ dfrastr %>%
   labs(fill = "Temperature\n(ºC)", title = "Water Temperature from MODIS Satellite Data, December 2022", caption = "Graphic by A. Renner & T. Chait | Data Source: NASA Earth Observations")
 ```
 
-### Resources: 
+### Resources:
 
 [US Environmental Protection Agency: Sea Surface Temperature Data](https://www.epa.gov/climate-indicators/climate-change-indicators-sea-surface-temperature)
