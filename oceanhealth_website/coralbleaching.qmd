@@ -8,7 +8,6 @@ library(tidyverse)
 library(ggplot2)
 library(lubridate)
 library(sf)
-library(ggplot2)
 library(rnaturalearth)
 library(rnaturalearthdata)
 library(maps)
@@ -201,7 +200,6 @@ ggplot(data = world) +
 Throughout this case study we have proven many times that El Niño and La Niña can impact a corals health and possibly cause coral bleaching. This is important to know because coral is home to many marine species and provides homes, resources, and nutrients to lots of marine life. If more coral to became bleached then that means some marine life species could be without a home or food source. It is important for us humans to think about the implications and lasting effects of our actions not just on ourselves but also the other life forms that call Earth their home!
 
 *Additionally, it is important to note that we don't know whether the trends seen in this case study are magnified due to the researchers simply collecting more data during the El Niño years when compared to the La Niña years. It seems as though the trends are seen in many different ways that this would not be the case but when dealing with data it is important to keep in mind!*
-
 
 ### Resources
 
